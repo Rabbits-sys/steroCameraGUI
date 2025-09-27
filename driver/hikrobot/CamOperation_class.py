@@ -1,4 +1,5 @@
 # -- coding: utf-8 --
+import logging
 import threading
 import time
 import sys
@@ -12,22 +13,82 @@ sys.path.append("./")
 from CameraParams_header import *
 from MvCameraControl_class import *
 
+# ---------------------------------------------------------------------------
+# Logging setup
+# ---------------------------------------------------------------------------
+logger = logging.getLogger(__name__)
+if not logger.handlers:
+    logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(levelname)s %(name)s: %(message)s')
+
+# ---------------------------------------------------------------------------
+# Custom error codes (negative values distinct from SDK error codes)
+# ---------------------------------------------------------------------------
+CAM_OK = 0  # mirror MV_OK for clarity
+CAM_ERR_INVALID_THREAD_ID = -3001
+CAM_ERR_THREAD_STATE_FAIL = -3002
+CAM_ERR_NOT_OPEN = -3003
+CAM_ERR_CREATE_HANDLE_FAIL = -3004
+CAM_ERR_OPEN_DEVICE_FAIL = -3005
+CAM_ERR_START_GRAB_FAIL = -3006
+CAM_ERR_STOP_GRAB_FAIL = -3007
+CAM_ERR_CLOSE_DEVICE_FAIL = -3008
+CAM_ERR_GET_PARAM_FAIL = -3009
+CAM_ERR_SET_EXPOSURE_FAIL = -3010
+CAM_ERR_SET_GAIN_FAIL = -3011
+CAM_ERR_SET_FPS_FAIL = -3012
+CAM_ERR_TRIGGER_MODE_FAIL = -3013
+CAM_ERR_SAVE_JPG_FAIL = -3014
+CAM_ERR_SAVE_BMP_FAIL = -3015
+CAM_ERR_GET_IMAGE_TIMEOUT = -3016
+CAM_ERR_CALL_ORDER = -3017
+
+def cam_error_text(code: int) -> str:
+    mapping = {
+        CAM_OK: 'OK',
+        CAM_ERR_INVALID_THREAD_ID: 'Invalid thread id',
+        CAM_ERR_THREAD_STATE_FAIL: 'SetAsyncExc state fail',
+        CAM_ERR_NOT_OPEN: 'Device not open',
+        CAM_ERR_CREATE_HANDLE_FAIL: 'Create handle failed',
+        CAM_ERR_OPEN_DEVICE_FAIL: 'Open device failed',
+        CAM_ERR_START_GRAB_FAIL: 'Start grabbing failed',
+        CAM_ERR_STOP_GRAB_FAIL: 'Stop grabbing failed',
+        CAM_ERR_CLOSE_DEVICE_FAIL: 'Close device failed',
+        CAM_ERR_GET_PARAM_FAIL: 'Get parameter failed',
+        CAM_ERR_SET_EXPOSURE_FAIL: 'Set exposure failed',
+        CAM_ERR_SET_GAIN_FAIL: 'Set gain failed',
+        CAM_ERR_SET_FPS_FAIL: 'Set frame rate failed',
+        CAM_ERR_TRIGGER_MODE_FAIL: 'Set trigger mode failed',
+        CAM_ERR_SAVE_JPG_FAIL: 'Save JPG failed',
+        CAM_ERR_SAVE_BMP_FAIL: 'Save BMP failed',
+        CAM_ERR_GET_IMAGE_TIMEOUT: 'Get image timeout / no data',
+        CAM_ERR_CALL_ORDER: 'Call order invalid',
+    }
+    return mapping.get(code, f'Unknown camera error ({code})')
+
+
 # 强制关闭线程
 def Async_raise(tid, exctype):
+    """Attempt to asynchronously raise an exception in a thread.
+    Returns CAM_OK or custom error code instead of raising exceptions."""
     tid = ctypes.c_long(tid)
     if not inspect.isclass(exctype):
         exctype = type(exctype)
     res = ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(exctype))
     if res == 0:
-        raise ValueError("invalid thread id")
+        logger.error("Async_raise failed: invalid thread id=%s", tid.value)
+        return CAM_ERR_INVALID_THREAD_ID
     elif res != 1:
         ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, None)
-        raise SystemError("PyThreadState_SetAsyncExc failed")
+        logger.error("Async_raise failed: PyThreadState_SetAsyncExc returned=%s", res)
+        return CAM_ERR_THREAD_STATE_FAIL
+    return CAM_OK
 
 
 # 停止线程
 def Stop_thread(thread):
-    Async_raise(thread.ident, SystemExit)
+    if thread is None:
+        return CAM_ERR_INVALID_THREAD_ID
+    return Async_raise(thread.ident, SystemExit)
 
 
 # 转为16进制字符串
@@ -373,4 +434,5 @@ class CameraOperation:
         self.buf_lock.release()
 
         return ret
+
 

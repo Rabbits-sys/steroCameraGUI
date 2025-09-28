@@ -13,6 +13,7 @@
 主要自定义错误码：
 -1001: 设备未初始化
 -1002: 初始化失败
+-1050: 参数不合法
 -1100: 登录失败
 -1200: 打开视频失败
 -1300: 开始录像失败
@@ -55,6 +56,7 @@ RANGE_MAX_NUM = 3
 SGP_OK = 0
 SGP_ERR_NOT_INITIALIZED = -1001
 SGP_ERR_INIT_FAILED = -1002
+SGP_ERR_INVALID_PARAM = -1050
 SGP_ERR_LOGIN_FAILED = -1100
 SGP_ERR_OPEN_VIDEO_FAILED = -1200
 SGP_ERR_RECORD_START_FAILED = -1300
@@ -647,12 +649,66 @@ class IRCamera:
             return SGP_ERR_REBOOT_FAILED
         return SGP_OK
 
+    def set_server(self, server: str):
+        """修改服务器地址 / 主机名。
+
+        校验规则：非空；只允许字母数字点横线下划线；长度<=255。
+
+        Parameters
+        ----------
+        server : str
+            新服务器地址/IP/主机名。
+
+        Returns
+        -------
+        int
+            SGP_OK 成功；SGP_ERR_INVALID_PARAM 参数不合法。
+        """
+        if not isinstance(server, str) or not server:
+            return SGP_ERR_INVALID_PARAM
+        if len(server) > 255 or not __import__('re').match(r'^[A-Za-z0-9_.-]+$', server):
+            return SGP_ERR_INVALID_PARAM
+        self.server = server
+        return SGP_OK
+
+    def set_username(self, username: str):
+        """修改用户名（非空，长度<=128）。"""
+        if not isinstance(username, str) or not username or len(username) > 128:
+            return SGP_ERR_INVALID_PARAM
+        self.username = username
+        return SGP_OK
+
+    def set_password(self, password: str):
+        """修改密码（非空，长度<=256）。"""
+        if not isinstance(password, str) or not password or len(password) > 256:
+            return SGP_ERR_INVALID_PARAM
+        self.password = password
+        return SGP_OK
+
+    def set_port(self, port):
+        """修改端口（1-65535）。
+
+        Parameters
+        ----------
+        port : int | str
+            新端口；可为可转换为 int 的字符串。
+        """
+        try:
+            p = int(port)
+        except (TypeError, ValueError):
+            return SGP_ERR_INVALID_PARAM
+        if p < 1 or p > 65535:
+            return SGP_ERR_INVALID_PARAM
+        self.port = p
+        return SGP_OK
+
 def error_text(code: int) -> str:
     """错误码转可读文本。未知码返回 'Unknown error (code)'。"""
     mapping = {
         SGP_OK: 'OK',
         SGP_ERR_NOT_INITIALIZED: 'Device not initialized',
         SGP_ERR_INIT_FAILED: 'Device init failed',
+        SGP_ERR_INVALID_PARAM: 'Invalid parameter',
         SGP_ERR_LOGIN_FAILED: 'Login failed',
         SGP_ERR_OPEN_VIDEO_FAILED: 'Open IR video failed',
         SGP_ERR_RECORD_START_FAILED: 'Start record failed',
@@ -679,5 +735,5 @@ __all__ = [
     'IRCamera','SGP_ERR_NOT_INITIALIZED','SGP_ERR_INIT_FAILED','SGP_ERR_LOGIN_FAILED','SGP_ERR_OPEN_VIDEO_FAILED',
     'SGP_ERR_RECORD_START_FAILED','SGP_ERR_CAPTURE_FAILED','SGP_ERR_HEATMAP_FAILED','SGP_ERR_GET_TEMPS_FAILED',
     'SGP_ERR_GET_GENERAL_FAILED','SGP_ERR_GET_VERSION_FAILED','SGP_ERR_GET_THERM_PARAM_FAILED','SGP_ERR_SET_THERM_PARAM_FAILED',
-    'SGP_ERR_SHUTTER_FAILED','SGP_ERR_FOCUS_FAILED','SGP_ERR_REBOOT_FAILED','error_text'
+    'SGP_ERR_SHUTTER_FAILED','SGP_ERR_FOCUS_FAILED','SGP_ERR_REBOOT_FAILED','error_text','SGP_ERR_INVALID_PARAM'
 ]

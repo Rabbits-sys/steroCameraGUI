@@ -357,7 +357,7 @@ class Window(SplitFluentWindow):
                     else:
                         self.irOpenFlag = True
 
-                        self.homeInterface.hikInterface.hikOpenButton.setText("登出设备")
+                        self.homeInterface.guideInterface.guideLoadButton.setText("登出设备")
 
                         self.guideParamFrozen()
                         self.guideOperationUnfrozen()

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1200</width>
-    <height>713</height>
+    <height>793</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -200,7 +200,7 @@
              </layout>
             </item>
             <item>
-             <spacer name="verticalSpacer">
+             <spacer name="stateVerticalSpacer_1">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -213,9 +213,9 @@
              </spacer>
             </item>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <layout class="QHBoxLayout" name="stateHorizontalLayout_2">
               <item>
-               <spacer name="horizontalSpacer_5">
+               <spacer name="stateHorizontalSpacer_3">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -228,7 +228,7 @@
                </spacer>
               </item>
               <item>
-               <widget class="QTextBrowser" name="textBrowser">
+               <widget class="TextBrowser" name="stateTextBrowser">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -238,7 +238,7 @@
                </widget>
               </item>
               <item>
-               <spacer name="horizontalSpacer_6">
+               <spacer name="stateHorizontalSpacer_4">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -253,7 +253,7 @@
              </layout>
             </item>
             <item>
-             <spacer name="verticalSpacer_2">
+             <spacer name="stateVerticalSpacer_2">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -266,9 +266,9 @@
              </spacer>
             </item>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <layout class="QHBoxLayout" name="stateHorizontalLayout_3">
               <item>
-               <spacer name="horizontalSpacer_3">
+               <spacer name="stateHorizontalSpacer_5">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -281,14 +281,20 @@
                </spacer>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_2">
+               <widget class="TogglePushButton" name="stateStartButton">
                 <property name="text">
-                 <string>PushButton</string>
+                 <string>开始采集</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
               <item>
-               <spacer name="horizontalSpacer_2">
+               <spacer name="stateHorizontalSpacer_6">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -301,14 +307,14 @@
                </spacer>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton">
+               <widget class="PrimaryPushButton" name="stateGrabButton">
                 <property name="text">
-                 <string>PushButton</string>
+                 <string>获取图像</string>
                 </property>
                </widget>
               </item>
               <item>
-               <spacer name="horizontalSpacer_4">
+               <spacer name="stateHorizontalSpacer_7">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -323,7 +329,7 @@
              </layout>
             </item>
             <item>
-             <spacer name="verticalSpacer_3">
+             <spacer name="stateVerticalSpacer_3">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -343,7 +349,7 @@
       </layout>
      </item>
      <item>
-      <widget class="CardWidget" name="playCard">
+      <widget class="CardWidget" name="rgbCard">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -367,17 +373,17 @@
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
         <item>
-         <layout class="QVBoxLayout" name="playVerticalLayout_1" stretch="0,0">
+         <layout class="QVBoxLayout" name="rgbVerticalLayout_1" stretch="0,0">
           <property name="sizeConstraint">
            <enum>QLayout::SetMinAndMaxSize</enum>
           </property>
           <item>
-           <layout class="QHBoxLayout" name="playHorizontalLayout_1">
+           <layout class="QHBoxLayout" name="rgbHorizontalLayout_1">
             <property name="leftMargin">
              <number>5</number>
             </property>
             <item>
-             <widget class="IconWidget" name="playCardIcon" native="true">
+             <widget class="IconWidget" name="rgbCardIcon" native="true">
               <property name="minimumSize">
                <size>
                 <width>22</width>
@@ -397,7 +403,7 @@
              </widget>
             </item>
             <item>
-             <spacer name="playHorizontalSpacer_1">
+             <spacer name="rgbHorizontalSpacer_1">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -413,14 +419,14 @@
              </spacer>
             </item>
             <item>
-             <widget class="StrongBodyLabel" name="playPeriodLabel">
+             <widget class="StrongBodyLabel" name="rgbPeriodLabel">
               <property name="text">
                <string>可见光相机</string>
               </property>
              </widget>
             </item>
             <item>
-             <spacer name="playHorizontalSpacer_2">
+             <spacer name="rgbHorizontalSpacer_2">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -435,7 +441,7 @@
            </layout>
           </item>
           <item>
-           <spacer name="playVerticalSpacer_5">
+           <spacer name="rgbVerticalSpacer_1">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -453,7 +459,7 @@
       </widget>
      </item>
      <item>
-      <widget class="CardWidget" name="playCard_2">
+      <widget class="CardWidget" name="irCard">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -477,17 +483,17 @@
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
         <item>
-         <layout class="QVBoxLayout" name="playVerticalLayout_2" stretch="0,0">
+         <layout class="QVBoxLayout" name="irVerticalLayout_1" stretch="0,0">
           <property name="sizeConstraint">
            <enum>QLayout::SetMinAndMaxSize</enum>
           </property>
           <item>
-           <layout class="QHBoxLayout" name="playHorizontalLayout_2">
+           <layout class="QHBoxLayout" name="irHorizontalLayout_1">
             <property name="leftMargin">
              <number>5</number>
             </property>
             <item>
-             <widget class="IconWidget" name="playCardIcon_2" native="true">
+             <widget class="IconWidget" name="irCardIcon" native="true">
               <property name="minimumSize">
                <size>
                 <width>22</width>
@@ -507,7 +513,7 @@
              </widget>
             </item>
             <item>
-             <spacer name="playHorizontalSpacer_3">
+             <spacer name="irHorizontalSpacer_1">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -523,14 +529,14 @@
              </spacer>
             </item>
             <item>
-             <widget class="StrongBodyLabel" name="playPeriodLabel_2">
+             <widget class="StrongBodyLabel" name="irPeriodLabel">
               <property name="text">
                <string>红外相机</string>
               </property>
              </widget>
             </item>
             <item>
-             <spacer name="playHorizontalSpacer_4">
+             <spacer name="irHorizontalSpacer_2">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -545,7 +551,7 @@
            </layout>
           </item>
           <item>
-           <spacer name="playVerticalSpacer_6">
+           <spacer name="irVerticalSpacer_1">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -601,6 +607,21 @@
    <extends>QWidget</extends>
    <header>qfluentwidgets</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TogglePushButton</class>
+   <extends>QPushButton</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>PrimaryPushButton</class>
+   <extends>QPushButton</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>TextBrowser</class>
+   <extends>QTextBrowser</extends>
+   <header>qfluentwidgets</header>
   </customwidget>
  </customwidgets>
  <resources>

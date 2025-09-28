@@ -6,7 +6,6 @@ from PyQt5.QtWidgets import QWidget, QGraphicsDropShadowEffect, QLabel
 from qfluentwidgets import FluentIcon
 
 from view.Ui_HomeInterface import Ui_HomeInterface
-
 from view.Ui_HikInterface import Ui_HikInterface
 
 
@@ -38,11 +37,14 @@ class HomeInterface(Ui_HomeInterface, QWidget):
         self.settingStackedWidget.setCurrentWidget(self.hikInterface)
         self.settingSegmentedWidget.setCurrentItem(self.hikInterface.objectName())
 
+        self.stateStartButton.setIcon(FluentIcon.PLAY)
+        self.stateGrabButton.setIcon(FluentIcon.PHOTO)
 
         # add shadow effect to card
         self.setShadowEffect(self.settingCard)
-        self.setShadowEffect(self.playCard)
         self.setShadowEffect(self.stateCard)
+        self.setShadowEffect(self.irCard)
+        self.setShadowEffect(self.rgbCard)
 
     def addSubInterface(self, widget, objectName: str, text: str):
         widget.setObjectName(objectName)
@@ -85,3 +87,6 @@ class HikInterface(Ui_HikInterface, QWidget):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.setupUi(self)
+
+        self.hikEnumButton.setIcon(FluentIcon.SYNC)
+        self.hikOpenButton.setIcon(FluentIcon.POWER_BUTTON)

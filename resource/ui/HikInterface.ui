@@ -15,7 +15,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <spacer name="horizontalSpacer_2">
+    <spacer name="hikHorizontalSpacer_1">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -28,12 +28,12 @@
     </spacer>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="hikVerticalLayout_1">
      <property name="spacing">
       <number>10</number>
      </property>
      <item>
-      <spacer name="verticalSpacer_2">
+      <spacer name="hikVerticalSpacer_1">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -46,10 +46,10 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="enum_dev">
+      <widget class="PrimaryPushButton" name="hikEnumButton">
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>200</width>
          <height>0</height>
         </size>
        </property>
@@ -65,10 +65,10 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBox"/>
+      <widget class="ComboBox" name="hikEnumComboBox"/>
      </item>
      <item>
-      <spacer name="verticalSpacer">
+      <spacer name="hikVerticalSpacer_2">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -81,7 +81,36 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="TogglePushButton" name="hikOpenButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>打开设备</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="hikVerticalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="BodyLabel" name="hikExposeLabel">
        <property name="text">
         <string>曝光时间</string>
        </property>
@@ -91,7 +120,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QSlider" name="expose_time">
+      <widget class="Slider" name="hikExposeSlider">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -108,7 +137,7 @@
         <number>100</number>
        </property>
        <property name="value">
-        <number>5000</number>
+        <number>100</number>
        </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -116,7 +145,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="BodyLabel" name="hikGainLabel">
        <property name="text">
         <string>数字增益</string>
        </property>
@@ -126,7 +155,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QSlider" name="gain_value">
+      <widget class="Slider" name="hikGainSlider">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -140,7 +169,7 @@
         <number>1</number>
        </property>
        <property name="value">
-        <number>2</number>
+        <number>0</number>
        </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -148,7 +177,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="BodyLabel" name="hikFrameRateLabel">
        <property name="text">
         <string>相机帧率</string>
        </property>
@@ -158,54 +187,14 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="frame_rate">
+      <widget class="SpinBox" name="hikFrameRateSpinBox">
        <property name="enabled">
         <bool>false</bool>
        </property>
       </widget>
      </item>
      <item>
-      <spacer name="verticalSpacer_4">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="open_hk">
-       <property name="text">
-        <string>打开设备</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="get_param">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>获取参数</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="set_param">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>设置参数</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_3">
+      <spacer name="hikVerticalSpacer_4">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -220,7 +209,7 @@
     </layout>
    </item>
    <item>
-    <spacer name="horizontalSpacer">
+    <spacer name="hikHorizontalSpacer_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -234,6 +223,38 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PrimaryPushButton</class>
+   <extends>QPushButton</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>BodyLabel</class>
+   <extends>QLabel</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>TogglePushButton</class>
+   <extends>QPushButton</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>SpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>Slider</class>
+   <extends>QSlider</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>ComboBox</class>
+   <extends>QComboBox</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../resource.qrc"/>
  </resources>

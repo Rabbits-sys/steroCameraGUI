@@ -576,10 +576,12 @@ class Window(SplitFluentWindow):
     def guideOperationFrozen(self):
         self.homeInterface.guideInterface.guideColorCheckBox.setEnabled(False)
         self.homeInterface.guideInterface.guideColorComboBox.setEnabled(False)
+        self.homeInterface.guideInterface.guideFocalButton.setEnabled(False)
 
     def guideOperationUnfrozen(self):
         self.homeInterface.guideInterface.guideColorCheckBox.setEnabled(True)
         self.homeInterface.guideInterface.guideColorComboBox.setEnabled(True)
+        self.homeInterface.guideInterface.guideFocalButton.setEnabled(True)
 
     def stateGrubFrozen(self):
         self.homeInterface.stateGrabButton.setEnabled(False)

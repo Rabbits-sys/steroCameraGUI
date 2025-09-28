@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FocusInterface</class>
- <widget class="QWidget" name="FocusInterface">
+ <class>HardwareInterface</class>
+ <widget class="QWidget" name="HardwareInterface">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1600</width>
+    <width>911</width>
     <height>807</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_3">
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout" columnstretch="1,1,0">
      <property name="sizeConstraint">
@@ -35,7 +35,7 @@
       <number>12</number>
      </property>
      <item row="0" column="1">
-      <widget class="CardWidget" name="progressCard">
+      <widget class="CardWidget" name="speakerCard">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -59,37 +59,37 @@
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0">
+         <layout class="QVBoxLayout" name="speakerVerticalLayout_1" stretch="0,0,0,0,0,0,0,0,0,0,0">
           <property name="sizeConstraint">
            <enum>QLayout::SetMinAndMaxSize</enum>
           </property>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <layout class="QHBoxLayout" name="speakerHorizontalLayout_1">
             <property name="leftMargin">
              <number>5</number>
             </property>
             <item>
-             <widget class="IconWidget" name="progressIcon" native="true">
+             <widget class="IconWidget" name="speakerCardIcon" native="true">
               <property name="minimumSize">
                <size>
-                <width>18</width>
-                <height>18</height>
+                <width>22</width>
+                <height>22</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>18</width>
-                <height>18</height>
+                <width>22</width>
+                <height>22</height>
                </size>
               </property>
               <property name="icon" stdset="0">
                <iconset resource="../resource.qrc">
-                <normaloff>:/images/tips.png</normaloff>:/images/tips.png</iconset>
+                <normaloff>:/images/speaker.png</normaloff>:/images/speaker.png</iconset>
               </property>
              </widget>
             </item>
             <item>
-             <spacer name="horizontalSpacer_8">
+             <spacer name="speakerHorizontalSpacer_1">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -105,14 +105,14 @@
              </spacer>
             </item>
             <item>
-             <widget class="StrongBodyLabel" name="dailyProgressLabel">
+             <widget class="StrongBodyLabel" name="speakerPeriodLabel">
               <property name="text">
-               <string>每日进度</string>
+               <string>扬声器设置</string>
               </property>
              </widget>
             </item>
             <item>
-             <spacer name="horizontalSpacer_9">
+             <spacer name="speakerHorizontalSpacer_2">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -124,242 +124,263 @@
               </property>
              </spacer>
             </item>
-            <item alignment="Qt::AlignRight">
-             <widget class="TransparentToolButton" name="editButton"/>
+           </layout>
+          </item>
+          <item>
+           <spacer name="speakerVerticalSpacer_1">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="SubtitleLabel" name="speakerSettingLabel">
+            <property name="text">
+             <string>USB 扬声器设置</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="speakerVerticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item alignment="Qt::AlignHCenter">
+           <widget class="PrimaryPushButton" name="speakerPushButton">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>150</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>遍历扬声器</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="speakerVerticalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="speakerHorizontalLayout_2">
+            <property name="leftMargin">
+             <number>25</number>
+            </property>
+            <property name="topMargin">
+             <number>15</number>
+            </property>
+            <property name="rightMargin">
+             <number>25</number>
+            </property>
+            <property name="bottomMargin">
+             <number>15</number>
+            </property>
+            <item>
+             <widget class="ComboBox" name="speakerComboBox">
+              <property name="minimumSize">
+               <size>
+                <width>200</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>200</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="speakerHorizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="PrimaryPushButton" name="speakerTestButton">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>测试</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,2,1">
-            <property name="sizeConstraint">
-             <enum>QLayout::SetMinAndMaxSize</enum>
+           <spacer name="speakerVerticalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="speakerHorizontalLayout_3">
+            <property name="leftMargin">
+             <number>25</number>
+            </property>
+            <property name="topMargin">
+             <number>15</number>
+            </property>
+            <property name="rightMargin">
+             <number>25</number>
+            </property>
+            <property name="bottomMargin">
+             <number>15</number>
             </property>
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_5">
-              <item>
-               <spacer name="verticalSpacer_5">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-               <widget class="BodyLabel" name="yesterdayLabel">
-                <property name="text">
-                 <string>昨天</string>
-                </property>
-               </widget>
-              </item>
-              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-               <widget class="LargeTitleLabel" name="yesterdayTimeLabel">
-                <property name="text">
-                 <string>3</string>
-                </property>
-               </widget>
-              </item>
-              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-               <widget class="BodyLabel" name="minuteLabel1">
-                <property name="text">
-                 <string>分钟</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_6">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
+             <widget class="BodyLabel" name="speakerUsageLabel">
+              <property name="text">
+               <string>扬声器启用</string>
+              </property>
+             </widget>
             </item>
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_10" stretch="0,0,1,0,0,0">
-              <item>
-               <spacer name="verticalSpacer_15">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="SubtitleLabel" name="targetLabel">
-                <property name="text">
-                 <string>今日计划</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="ProgressRing" name="progressRing">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                  <horstretch>1</horstretch>
-                  <verstretch>1</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>150</width>
-                  <height>150</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>220</width>
-                  <height>220</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Microsoft YaHei UI</family>
-                  <pointsize>10</pointsize>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="maximum">
-                 <number>24</number>
-                </property>
-                <property name="value">
-                 <number>10</number>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="textVisible">
-                 <bool>true</bool>
-                </property>
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="textDirection">
-                 <enum>QProgressBar::TopToBottom</enum>
-                </property>
-                <property name="format">
-                 <string>目标 %v 小时</string>
-                </property>
-                <property name="useAni" stdset="0">
-                 <bool>false</bool>
-                </property>
-                <property name="val" stdset="0">
-                 <double>10.000000000000000</double>
-                </property>
-                <property name="strokeWidth" stdset="0">
-                 <number>15</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_16">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>3</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item alignment="Qt::AlignHCenter">
-               <widget class="BodyLabel" name="finishTimeLabel">
-                <property name="text">
-                 <string>已完成：0 分钟</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_13">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
+             <spacer name="speakerHorizontalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_6">
-              <item>
-               <spacer name="verticalSpacer_9">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-               <widget class="BodyLabel" name="continousComplianceDayLabel">
-                <property name="text">
-                 <string>连续达标日</string>
-                </property>
-               </widget>
-              </item>
-              <item alignment="Qt::AlignHCenter">
-               <widget class="LargeTitleLabel" name="compianceDayLabel">
-                <property name="text">
-                 <string>5</string>
-                </property>
-               </widget>
-              </item>
-              <item alignment="Qt::AlignHCenter">
-               <widget class="BodyLabel" name="dayLabel">
-                <property name="text">
-                 <string>天</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_10">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
+             <widget class="SwitchButton" name="speakerSwitchButton">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>关</string>
+              </property>
+             </widget>
             </item>
            </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="speakerHorizontalLayout_4">
+            <property name="leftMargin">
+             <number>25</number>
+            </property>
+            <property name="topMargin">
+             <number>15</number>
+            </property>
+            <property name="rightMargin">
+             <number>25</number>
+            </property>
+            <property name="bottomMargin">
+             <number>15</number>
+            </property>
+            <item>
+             <widget class="BodyLabel" name="speakerVoltageLabel">
+              <property name="text">
+               <string>扬声器音量</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="speakerHorizontalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="Slider" name="speakerHorizontalSlider">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="value">
+               <number>100</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="speakerVerticalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </item>
@@ -367,7 +388,7 @@
       </widget>
      </item>
      <item row="0" column="0">
-      <widget class="CardWidget" name="focusCard">
+      <widget class="CardWidget" name="sampleCard">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -394,44 +415,44 @@
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout">
+         <layout class="QVBoxLayout" name="sampleVerticalLayout_1">
           <property name="sizeConstraint">
            <enum>QLayout::SetDefaultConstraint</enum>
           </property>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <layout class="QHBoxLayout" name="sampleHorizontalLayout_1">
             <property name="leftMargin">
              <number>5</number>
             </property>
             <item>
-             <widget class="IconWidget" name="focusCardIcon" native="true">
+             <widget class="IconWidget" name="sampleCardIcon" native="true">
               <property name="minimumSize">
                <size>
-                <width>20</width>
-                <height>20</height>
+                <width>22</width>
+                <height>22</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>20</width>
-                <height>20</height>
+                <width>22</width>
+                <height>22</height>
                </size>
               </property>
               <property name="icon" stdset="0">
                <iconset resource="../resource.qrc">
-                <normaloff>:/images/alarms.png</normaloff>:/images/alarms.png</iconset>
+                <normaloff>:/images/sample.png</normaloff>:/images/sample.png</iconset>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="StrongBodyLabel" name="focusPeriodLabel">
+             <widget class="StrongBodyLabel" name="samplePeriodLabel">
               <property name="text">
-               <string>专注时段</string>
+               <string>采集卡设置</string>
               </property>
              </widget>
             </item>
             <item>
-             <spacer name="horizontalSpacer">
+             <spacer name="sampleHorizontalSpacer_1">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -444,15 +465,15 @@
              </spacer>
             </item>
             <item>
-             <widget class="TransparentToolButton" name="pinButton"/>
+             <widget class="TransparentToolButton" name="sampleReloadButton"/>
             </item>
             <item>
-             <widget class="TransparentToolButton" name="moreButton"/>
+             <widget class="TransparentToolButton" name="sampleSaveButton"/>
             </item>
            </layout>
           </item>
           <item>
-           <spacer name="verticalSpacer_12">
+           <spacer name="sampleVerticalSpacer_1">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -465,9 +486,9 @@
            </spacer>
           </item>
           <item>
-           <widget class="SubtitleLabel" name="prepareFocusLabel">
+           <widget class="SubtitleLabel" name="sampleSettingLabel">
             <property name="text">
-             <string>准备专注</string>
+             <string>麦克风采集卡设置</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -475,7 +496,7 @@
            </widget>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <layout class="QHBoxLayout" name="sampleHorizontalLayout_2">
             <property name="leftMargin">
              <number>15</number>
             </property>
@@ -486,9 +507,9 @@
              <number>15</number>
             </property>
             <item>
-             <widget class="BodyLabel" name="hintLabel">
+             <widget class="BodyLabel" name="sampleHintLabel">
               <property name="text">
-               <string>我们将在每个会话期间关闭通知和应用警报。对于较长的会话，我们将添加简短的休息时间，以便你可以恢复精力。</string>
+               <string>下列设置项适用于麦克风数据采集卡，需前置安装采集卡驱动。同时需要将编号对应的麦克风与采集卡通道连接，以便正确采集数据。</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
@@ -518,7 +539,7 @@
            </layout>
           </item>
           <item>
-           <spacer name="verticalSpacer_2">
+           <spacer name="sampleVerticalSpacer_2">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -533,93 +554,159 @@
             </property>
            </spacer>
           </item>
-          <item alignment="Qt::AlignHCenter">
-           <widget class="TimePicker" name="timePicker">
-            <property name="secondVisible" stdset="0">
-             <bool>true</bool>
+          <item>
+           <layout class="QHBoxLayout" name="sampleHorizontalLayout_3">
+            <property name="leftMargin">
+             <number>25</number>
             </property>
-           </widget>
+            <property name="topMargin">
+             <number>15</number>
+            </property>
+            <property name="rightMargin">
+             <number>25</number>
+            </property>
+            <property name="bottomMargin">
+             <number>15</number>
+            </property>
+            <item>
+             <widget class="BodyLabel" name="sampleUsageLabel">
+              <property name="text">
+               <string>HK6023启用</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="sampleHorizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="SwitchButton" name="sampleUsageSwitchButton">
+              <property name="text">
+               <string>关</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
-           <spacer name="verticalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
+           <layout class="QHBoxLayout" name="sampleHorizontalLayout_4">
+            <property name="leftMargin">
+             <number>25</number>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
+            <property name="topMargin">
+             <number>15</number>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>10</height>
-             </size>
+            <property name="rightMargin">
+             <number>25</number>
             </property>
-           </spacer>
-          </item>
-          <item alignment="Qt::AlignHCenter">
-           <widget class="BodyLabel" name="bottomHintLabel">
-            <property name="text">
-             <string>你将没有休息时间。</string>
+            <property name="bottomMargin">
+             <number>15</number>
             </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_11">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>10</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item alignment="Qt::AlignHCenter">
-           <widget class="CheckBox" name="skipRelaxCheckBox">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>跳过休息</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item alignment="Qt::AlignHCenter">
-           <widget class="PrimaryPushButton" name="startFocusButton">
-            <property name="text">
-             <string>启动专注时段</string>
-            </property>
-            <property name="autoDefault">
-             <bool>true</bool>
-            </property>
-           </widget>
+            <item>
+             <widget class="BodyLabel" name="sampleVoltageLabel">
+              <property name="text">
+               <string>HK6023量程</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="sampleHorizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="RadioButton" name="sampleVoltageButton_1">
+              <property name="text">
+               <string>5V</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="RadioButton" name="sampleVoltageButton_2">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="text">
+               <string>10V</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
-           <spacer name="verticalSpacer">
+           <layout class="QHBoxLayout" name="sampleHorizontalLayout_5">
+            <property name="leftMargin">
+             <number>25</number>
+            </property>
+            <property name="topMargin">
+             <number>15</number>
+            </property>
+            <property name="rightMargin">
+             <number>20</number>
+            </property>
+            <property name="bottomMargin">
+             <number>15</number>
+            </property>
+            <item>
+             <widget class="BodyLabel" name="sampleRateLabel">
+              <property name="text">
+               <string>HK6023采样率</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="sampleHorizontalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="SpinBox" name="sampleRateSpinBox">
+              <property name="minimum">
+               <number>100</number>
+              </property>
+              <property name="maximum">
+               <number>100000</number>
+              </property>
+              <property name="singleStep">
+               <number>10000</number>
+              </property>
+              <property name="value">
+               <number>100000</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="sampleVerticalSpacer_3">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -652,24 +739,24 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_8">
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_7">
+         <layout class="QVBoxLayout" name="taskVerticalLayout_1">
           <property name="leftMargin">
            <number>8</number>
           </property>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <layout class="QHBoxLayout" name="taskHorizontalLayout_1">
             <item>
              <widget class="IconWidget" name="taskCardIcon" native="true">
               <property name="minimumSize">
                <size>
-                <width>18</width>
-                <height>18</height>
+                <width>15</width>
+                <height>15</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>18</width>
-                <height>18</height>
+                <width>15</width>
+                <height>15</height>
                </size>
               </property>
               <property name="icon" stdset="0">
@@ -679,7 +766,7 @@
              </widget>
             </item>
             <item>
-             <spacer name="horizontalSpacer_7">
+             <spacer name="taskHorizontalSpacer_1">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -697,12 +784,12 @@
             <item>
              <widget class="StrongBodyLabel" name="taskLabel">
               <property name="text">
-               <string>任务</string>
+               <string>硬件测试</string>
               </property>
              </widget>
             </item>
             <item>
-             <spacer name="horizontalSpacer_3">
+             <spacer name="taskHorizontalSpacer_2">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -714,16 +801,10 @@
               </property>
              </spacer>
             </item>
-            <item>
-             <widget class="TransparentToolButton" name="addTaskButton"/>
-            </item>
-            <item>
-             <widget class="TransparentToolButton" name="moreTaskButton"/>
-            </item>
            </layout>
           </item>
           <item>
-           <spacer name="verticalSpacer_8">
+           <spacer name="taskVerticalSpacer_1">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -739,9 +820,9 @@
            </spacer>
           </item>
           <item>
-           <widget class="BodyLabel" name="hintLabel_2">
+           <widget class="BodyLabel" name="taskHintLabel">
             <property name="text">
-             <string>为会话选择任务</string>
+             <string>选择测试任务</string>
             </property>
             <property name="lightColor" stdset="0">
              <color>
@@ -760,12 +841,15 @@
            </widget>
           </item>
           <item>
-           <layout class="QVBoxLayout" name="verticalLayout_9">
+           <layout class="QVBoxLayout" name="taskVerticalLayout_2">
             <property name="rightMargin">
              <number>7</number>
             </property>
             <item>
-             <widget class="CardWidget" name="taskCard1">
+             <widget class="CardWidget" name="taskCard_1">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -783,9 +867,9 @@
                 <number>15</number>
                </property>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_8">
+                <layout class="QHBoxLayout" name="taskHorizontalLayout_2">
                  <item>
-                  <widget class="IconWidget" name="taskIcon1" native="true">
+                  <widget class="IconWidget" name="taskIcon_1" native="true">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>16</horstretch>
@@ -809,20 +893,20 @@
                 </layout>
                </item>
                <item>
-                <widget class="BodyLabel" name="taskLabel1">
+                <widget class="BodyLabel" name="taskLabel_1">
                  <property name="text">
-                  <string>全军出🐔，誓死保卫鸽鸽🏀！！</string>
+                  <string>麦克风采集卡USB连接测试</string>
                  </property>
                  <property name="pixelFontSize" stdset="0">
                   <number>14</number>
                  </property>
                  <property name="strikeOut" stdset="0">
-                  <bool>true</bool>
+                  <bool>false</bool>
                  </property>
                 </widget>
                </item>
                <item>
-                <spacer name="horizontalSpacer_4">
+                <spacer name="taskHorizontalSpacer_3">
                  <property name="orientation">
                   <enum>Qt::Horizontal</enum>
                  </property>
@@ -838,7 +922,7 @@
              </widget>
             </item>
             <item>
-             <widget class="CardWidget" name="taskCard2">
+             <widget class="CardWidget" name="taskCard_2">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -856,9 +940,9 @@
                 <number>15</number>
                </property>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_13">
+                <layout class="QHBoxLayout" name="taskHorizontalLayout_3">
                  <item>
-                  <widget class="IconWidget" name="taskIcon2" native="true">
+                  <widget class="IconWidget" name="taskIcon_2" native="true">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>16</horstretch>
@@ -882,14 +966,14 @@
                 </layout>
                </item>
                <item>
-                <widget class="BodyLabel" name="taskLabel2">
+                <widget class="BodyLabel" name="taskLabel_2">
                  <property name="text">
-                  <string>上传我家 aiko 的 MV『シアワセ』</string>
+                  <string>扬声器依次播放测试</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <spacer name="horizontalSpacer_6">
+                <spacer name="taskHorizontalSpacer_4">
                  <property name="orientation">
                   <enum>Qt::Horizontal</enum>
                  </property>
@@ -905,7 +989,7 @@
              </widget>
             </item>
             <item>
-             <widget class="CardWidget" name="taskCard3">
+             <widget class="CardWidget" name="taskCard_3">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -923,9 +1007,9 @@
                 <number>15</number>
                </property>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_11">
+                <layout class="QHBoxLayout" name="taskHorizontalLayout_4">
                  <item>
-                  <widget class="IconWidget" name="taskIcon3" native="true">
+                  <widget class="IconWidget" name="taskIcon_3" native="true">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>16</horstretch>
@@ -949,14 +1033,14 @@
                 </layout>
                </item>
                <item>
-                <widget class="BodyLabel" name="taskLabel3">
+                <widget class="BodyLabel" name="taskLabel_3">
                  <property name="text">
-                  <string>下载我家 aiko 的新歌『荒れた唇は恋を失くす』</string>
+                  <string>麦克风采集卡2s数据采集测试</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <spacer name="horizontalSpacer_5">
+                <spacer name="taskHorizontalSpacer_5">
                  <property name="orientation">
                   <enum>Qt::Horizontal</enum>
                  </property>
@@ -974,7 +1058,7 @@
            </layout>
           </item>
           <item>
-           <spacer name="verticalSpacer_7">
+           <spacer name="taskVerticalSpacer_2">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -992,7 +1076,7 @@
       </widget>
      </item>
      <item row="0" column="2">
-      <spacer name="horizontalSpacer_2">
+      <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -1010,31 +1094,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>CheckBox</class>
-   <extends>QCheckBox</extends>
-   <header>qfluentwidgets</header>
-  </customwidget>
-  <customwidget>
-   <class>PushButton</class>
-   <extends>QPushButton</extends>
-   <header>qfluentwidgets</header>
-  </customwidget>
-  <customwidget>
-   <class>PrimaryPushButton</class>
-   <extends>PushButton</extends>
-   <header>qfluentwidgets</header>
-  </customwidget>
-  <customwidget>
-   <class>ToolButton</class>
-   <extends>QToolButton</extends>
-   <header>qfluentwidgets</header>
-  </customwidget>
-  <customwidget>
-   <class>TransparentToolButton</class>
-   <extends>ToolButton</extends>
-   <header>qfluentwidgets</header>
-  </customwidget>
-  <customwidget>
    <class>IconWidget</class>
    <extends>QWidget</extends>
    <header>qfluentwidgets</header>
@@ -1044,11 +1103,6 @@
    <extends>QFrame</extends>
    <header>qfluentwidgets</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>TimePicker</class>
-   <extends>QPushButton</extends>
-   <header>qfluentwidgets</header>
   </customwidget>
   <customwidget>
    <class>BodyLabel</class>
@@ -1066,18 +1120,38 @@
    <header>qfluentwidgets</header>
   </customwidget>
   <customwidget>
-   <class>LargeTitleLabel</class>
-   <extends>QLabel</extends>
+   <class>SwitchButton</class>
+   <extends>QPushButton</extends>
    <header>qfluentwidgets</header>
   </customwidget>
   <customwidget>
-   <class>ProgressBar</class>
-   <extends>QProgressBar</extends>
+   <class>RadioButton</class>
+   <extends>QRadioButton</extends>
    <header>qfluentwidgets</header>
   </customwidget>
   <customwidget>
-   <class>ProgressRing</class>
-   <extends>ProgressBar</extends>
+   <class>SpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>TransparentToolButton</class>
+   <extends>QToolButton</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>PrimaryPushButton</class>
+   <extends>QPushButton</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>ComboBox</class>
+   <extends>QComboBox</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>Slider</class>
+   <extends>QSlider</extends>
    <header>qfluentwidgets</header>
   </customwidget>
  </customwidgets>

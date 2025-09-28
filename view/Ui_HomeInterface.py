@@ -111,6 +111,7 @@ class Ui_HomeInterface(object):
         spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.stateHorizontalLayout_3.addItem(spacerItem9)
         self.stateGrabButton = PrimaryPushButton(self.stateCard)
+        self.stateGrabButton.setEnabled(False)
         self.stateGrabButton.setObjectName("stateGrabButton")
         self.stateHorizontalLayout_3.addWidget(self.stateGrabButton)
         spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)

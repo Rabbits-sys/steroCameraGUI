@@ -308,6 +308,9 @@
               </item>
               <item>
                <widget class="PrimaryPushButton" name="stateGrabButton">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>获取图像</string>
                 </property>

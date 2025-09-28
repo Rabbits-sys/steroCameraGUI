@@ -235,7 +235,7 @@
         </widget>
        </item>
        <item>
-        <widget class="ComboBox" name="comboBox">
+        <widget class="ComboBox" name="guideColorComboBox">
          <property name="enabled">
           <bool>false</bool>
          </property>

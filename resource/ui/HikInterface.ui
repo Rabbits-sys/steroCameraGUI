@@ -55,7 +55,7 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>16777215</width>
+         <width>200</width>
          <height>16777215</height>
         </size>
        </property>
@@ -65,7 +65,20 @@
       </widget>
      </item>
      <item>
-      <widget class="ComboBox" name="hikEnumComboBox"/>
+      <widget class="ComboBox" name="hikEnumComboBox">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>200</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer name="hikVerticalSpacer_2">
@@ -187,9 +200,21 @@
       </widget>
      </item>
      <item>
-      <widget class="SpinBox" name="hikFrameRateSpinBox">
+      <widget class="Slider" name="hikFrameRateSlider">
        <property name="enabled">
         <bool>false</bool>
+       </property>
+       <property name="minimum">
+        <number>10</number>
+       </property>
+       <property name="maximum">
+        <number>70</number>
+       </property>
+       <property name="singleStep">
+        <number>5</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
@@ -237,11 +262,6 @@
   <customwidget>
    <class>TogglePushButton</class>
    <extends>QPushButton</extends>
-   <header>qfluentwidgets</header>
-  </customwidget>
-  <customwidget>
-   <class>SpinBox</class>
-   <extends>QSpinBox</extends>
    <header>qfluentwidgets</header>
   </customwidget>
   <customwidget>

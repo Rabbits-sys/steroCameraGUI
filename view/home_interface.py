@@ -41,6 +41,8 @@ class HomeInterface(Ui_HomeInterface, QWidget):
         self.stateStartButton.setIcon(FluentIcon.PLAY)
         self.stateGrabButton.setIcon(FluentIcon.CAMERA)
 
+        self.irLabel.setScaledContents(True)
+
         # add shadow effect to card
         self.setShadowEffect(self.settingCard)
         self.setShadowEffect(self.stateCard)
@@ -90,6 +92,9 @@ class HikInterface(Ui_HikInterface, QWidget):
 
         self.hikEnumButton.setIcon(FluentIcon.SYNC)
         self.hikOpenButton.setIcon(FluentIcon.POWER_BUTTON)
+
+        self.hikGainSlider.setTracking(False)
+        self.hikExposeSlider.setTracking(False)
 
 class GuideInterface(Ui_GuideInterface, QWidget):
     def __init__(self, parent=None):

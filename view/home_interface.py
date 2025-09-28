@@ -1,13 +1,14 @@
 # coding:utf-8
+import os
 
-from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QWidget, QGraphicsDropShadowEffect, QLabel
-from qfluentwidgets import FluentIcon
+from qfluentwidgets import FluentIcon, PrimaryPushSettingCard
 
 from view.Ui_HomeInterface import Ui_HomeInterface
 from view.Ui_HikInterface import Ui_HikInterface
-
+from view.Ui_GuideInterface import Ui_GuideInterface
+from view.Ui_StoreInterface import Ui_StoreInterface
 
 class HomeInterface(Ui_HomeInterface, QWidget):
     """
@@ -24,13 +25,13 @@ class HomeInterface(Ui_HomeInterface, QWidget):
         self.setupUi(self)
 
         self.hikInterface = HikInterface()
-        self.albumInterface = QLabel('Album Interface', self)
-        self.artistInterface = QLabel('Artist Interface', self)
+        self.guideInterface = GuideInterface()
+        self.storeInterface = StoreInterface()
 
         # 添加标签页
         self.addSubInterface(self.hikInterface, 'hikInterface', '可见光相机')
-        self.addSubInterface(self.albumInterface, 'albumInterface', '红外相机')
-        self.addSubInterface(self.artistInterface, 'artistInterface', '采集设置')
+        self.addSubInterface(self.guideInterface, 'guideInterface', '红外相机')
+        self.addSubInterface(self.storeInterface, 'storeInterface', '采集设置')
 
         # 连接信号并初始化当前标签页
         self.settingStackedWidget.currentChanged.connect(self.onCurrentIndexChanged)
@@ -48,7 +49,6 @@ class HomeInterface(Ui_HomeInterface, QWidget):
 
     def addSubInterface(self, widget, objectName: str, text: str):
         widget.setObjectName(objectName)
-        # widget.setAlignment(Qt.AlignCenter)
         self.settingStackedWidget.addWidget(widget)
 
         # 使用全局唯一的 objectName 作为路由键
@@ -90,3 +90,25 @@ class HikInterface(Ui_HikInterface, QWidget):
 
         self.hikEnumButton.setIcon(FluentIcon.SYNC)
         self.hikOpenButton.setIcon(FluentIcon.POWER_BUTTON)
+
+class GuideInterface(Ui_GuideInterface, QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent=parent)
+        self.setupUi(self)
+
+        self.guideLoadButton.setIcon(FluentIcon.POWER_BUTTON)
+        self.guideFocalButton.setIcon(FluentIcon.SYNC)
+
+class StoreInterface(Ui_StoreInterface, QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent=parent)
+        self.setupUi(self)
+
+        self.storeCard = PrimaryPushSettingCard(
+            text="选择路径",
+            icon=FluentIcon.DOWNLOAD,
+            title="下载目录",
+            content=os.getcwd()
+        )
+        self.storeCard.hBoxLayout.setSpacing(5)
+        self.storeVerticalLayout_2.addWidget(self.storeCard)

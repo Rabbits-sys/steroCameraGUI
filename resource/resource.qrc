@@ -1,7 +1,9 @@
 <RCC>
   <qresource>
+    <file>images/logo.ico</file>
     <file>images/todo.png</file>
-    <file>images/alarms.png</file>
+    <file>images/camera.png</file>
+    <file>images/monitor.png</file>
     <file>images/tips.png</file>
   </qresource>
 </RCC>

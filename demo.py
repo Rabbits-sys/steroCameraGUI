@@ -27,7 +27,7 @@ class Window(SplitFluentWindow):
 
         self.navigationInterface.addWidget(
             routeKey='avatar',
-            widget=NavigationAvatarWidget('狐狸多多', 'resource/images/fox.jpg'),
+            widget=NavigationAvatarWidget('狐狸多多', 'resource/images/tips.png'),
             onClick=self.showMessageBox,
             position=NavigationItemPosition.BOTTOM,
         )
@@ -35,9 +35,9 @@ class Window(SplitFluentWindow):
         self.navigationInterface.setExpandWidth(140)
 
     def initWindow(self):
-        self.resize(1800, 800)
-        self.setWindowIcon(QIcon(':/qfluentwidgets/images/fox.jpg'))
-        self.setWindowTitle('PyQt-Fluent-Widgets')
+        self.resize(1700, 800)
+        self.setWindowIcon(QIcon('resource/images/logo.ico'))
+        self.setWindowTitle('浮力工业——相机采集工具')
 
         desktop = QApplication.desktop().availableGeometry()
         w, h = desktop.width(), desktop.height()

@@ -368,7 +368,7 @@
          <height>16777214</height>
         </size>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0">
         <property name="sizeConstraint">
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
@@ -441,7 +441,23 @@
            </layout>
           </item>
           <item>
-           <widget class="QWidget" name="widget" native="true"/>
+           <layout class="QVBoxLayout" name="rgbVerticalLayout_2">
+            <property name="leftMargin">
+             <number>10</number>
+            </property>
+            <property name="topMargin">
+             <number>10</number>
+            </property>
+            <property name="rightMargin">
+             <number>10</number>
+            </property>
+            <property name="bottomMargin">
+             <number>10</number>
+            </property>
+            <item>
+             <widget class="QWidget" name="rgbWidget" native="true"/>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>

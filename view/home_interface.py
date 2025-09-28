@@ -39,7 +39,7 @@ class HomeInterface(Ui_HomeInterface, QWidget):
         self.settingSegmentedWidget.setCurrentItem(self.hikInterface.objectName())
 
         self.stateStartButton.setIcon(FluentIcon.PLAY)
-        self.stateGrabButton.setIcon(FluentIcon.PHOTO)
+        self.stateGrabButton.setIcon(FluentIcon.CAMERA)
 
         # add shadow effect to card
         self.setShadowEffect(self.settingCard)

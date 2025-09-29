@@ -151,8 +151,8 @@ class Window(SplitFluentWindow):
 
         # guide
         self.homeInterface.guideInterface.guideLoadButton.toggled.connect(lambda checked: self.guideLoadButtonClicked(checked))
-
-
+        self.homeInterface.guideInterface.guideColorCheckBox.clicked.connect(self.guideColorCheckClicked)
+        self.homeInterface.guideInterface.guideColorComboBox.currentIndexChanged.connect(self.guideColorComboChanged)
         self.homeInterface.guideInterface.guideFocalButton.clicked.connect(self.guideFocalButtonClicked)
         self.sigShowIrVideo.connect(self.onShowIrVideo)
 
@@ -415,12 +415,70 @@ class Window(SplitFluentWindow):
                                 parent=self
                             )
                         else:
-                            pass
-                            # TODO display
+                            self.homeInterface.guideInterface.guideColorCheckBox.blockSignals(True)
+                            self.homeInterface.guideInterface.guideColorComboBox.blockSignals(True)
+                            self.homeInterface.guideInterface.guideColorCheckBox.setChecked(p.color_show == 1)
+                            self.homeInterface.guideInterface.guideColorComboBox.setCurrentIndex(max(0, int(p.color_bar) - 1))
+                            self.homeInterface.guideInterface.guideColorCheckBox.blockSignals(False)
+                            self.homeInterface.guideInterface.guideColorComboBox.blockSignals(False)
                         self.homeInterface.guideInterface.guideLoadButton.setText("登出设备")
 
                         self.guideParamFrozen()
                         self.guideOperationUnfrozen()
+        self.stateDisplay()
+
+    def guideColorCheckClicked(self):
+        ret, p = self.irDriver.get_thermometry_param()
+        if ret:
+            InfoBar.warning(
+                title='[IR相机]',
+                content='获取测温参数失败！',
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.BOTTOM_RIGHT,
+                duration=2000,
+                parent=self
+            )
+        else:
+            p.color_show = 1 if self.homeInterface.guideInterface.guideColorCheckBox.isChecked() else 0
+            ret = self.irDriver.set_thermometry_param(p)
+            if ret:
+                InfoBar.error(
+                    title='[IR相机]',
+                    content='设置测温参数失败！',
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.BOTTOM_RIGHT,
+                    duration=2000,
+                    parent=self
+                )
+        self.stateDisplay()
+
+    def guideColorComboChanged(self):
+        ret, p = self.irDriver.get_thermometry_param()
+        if ret:
+            InfoBar.warning(
+                title='[IR相机]',
+                content='获取测温参数失败！',
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.BOTTOM_RIGHT,
+                duration=2000,
+                parent=self
+            )
+        else:
+            p.color_bar = self.homeInterface.guideInterface.guideColorComboBox.currentIndex() + 1
+            ret = self.irDriver.set_thermometry_param(p)
+            if ret:
+                InfoBar.error(
+                    title='[IR相机]',
+                    content='设置测温参数失败！',
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.BOTTOM_RIGHT,
+                    duration=2000,
+                    parent=self
+                )
         self.stateDisplay()
 
     def guideFocalButtonClicked(self):
@@ -672,8 +730,8 @@ class Window(SplitFluentWindow):
             )
             return
 
-        fileName = os.path.join(self.storeManage.store_path, datetime.now().strftime("%Y%m%d%H%M%S"))
-
+        nowTime = datetime.now().strftime("%Y%m%d%H%M%S")
+        fileName = os.path.join(self.storeManage.store_path, nowTime)
         if self.rgbBusyFlag:
             if self.storeManage.save_rgb_img:
                 ret = self.rgbDriver.hk_save_jpg(fileName + '_rgb.jpg')
@@ -687,6 +745,7 @@ class Window(SplitFluentWindow):
                         duration=2000,
                         parent=self
                     )
+                    return
 
         if self.irBusyFlag:
             if self.storeManage.save_ir_img:
@@ -718,6 +777,16 @@ class Window(SplitFluentWindow):
                     with open(fileName + '_temp.json', 'w') as f:
                         json.dump(temp, f)
 
+            InfoBar.success(
+                title='[采集]',
+                content='抓拍成功:%s' % nowTime,
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.BOTTOM_RIGHT,
+                duration=2000,
+                parent=self
+            )
+
     def stateDisplay(self):
         rgbOpen = self.rgbOpenFlag
         rgbBusy = self.rgbBusyFlag
@@ -731,35 +800,35 @@ class Window(SplitFluentWindow):
         irColorCode = self.homeInterface.guideInterface.guideColorComboBox.currentIndex()
 
         stateBrowserMarkdown = ""
-        stateBrowserMarkdown += "#### 📸 **RGB 相机**: \n"
+        stateBrowserMarkdown += "#### 📸 **RGB 相机**:\n"
         if rgbOpen:
-            stateBrowserMarkdown += "状态: 已开启 | "
+            stateBrowserMarkdown += "##### 状态: 已开启 | "
         else:
-            stateBrowserMarkdown += "状态: 已关闭 | "
+            stateBrowserMarkdown += "##### 状态: 已关闭 | "
         if rgbBusy:
             stateBrowserMarkdown += "采样: 进行中\n"
         else:
             stateBrowserMarkdown += "采样: 已停止\n"
         if rgbOpen:
-            stateBrowserMarkdown += "曝光时间: " + str(exposureTime) + "us\n"
-            stateBrowserMarkdown += "增益: " + str(gain) + "\n"
-            stateBrowserMarkdown += "帧率: " + str(frameRate) + " fps\n"
+            stateBrowserMarkdown += "##### 曝光时间: " + str(exposureTime) + "us\n"
+            stateBrowserMarkdown += "##### 增益: " + str(gain) + "\n"
+            stateBrowserMarkdown += "##### 帧率: " + str(frameRate) + " fps\n"
 
         stateBrowserMarkdown += "#### 📹 **IR 相机**: \n"
         if irOpen:
-            stateBrowserMarkdown += "状态: 已开启 | "
+            stateBrowserMarkdown += "##### 状态: 已开启 | "
         else:
-            stateBrowserMarkdown += "状态: 已关闭 | "
+            stateBrowserMarkdown += "##### 状态: 已关闭 | "
         if irBusy:
             stateBrowserMarkdown += "采样: 进行中\n"
         else:
             stateBrowserMarkdown += "采样: 已停止\n"
         if irOpen:
             if irColorUsage:
-                stateBrowserMarkdown += "色带: 已开启\n"
+                stateBrowserMarkdown += "##### 色带: 已开启\n"
             else:
-                stateBrowserMarkdown += "色带: 已关闭\n"
-            stateBrowserMarkdown += "色彩映射编号: " + str(irColorCode) + "\n"
+                stateBrowserMarkdown += "##### 色带: 已关闭\n"
+            stateBrowserMarkdown += "##### 色彩映射编号: " + str(irColorCode) + "\n"
 
         self.homeInterface.stateTextBrowser.setMarkdown(stateBrowserMarkdown)
 

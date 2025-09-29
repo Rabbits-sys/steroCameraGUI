@@ -357,7 +357,7 @@ class RGBCameraParam(object):
     def set_exposure_time(self, exposure_time: int):
         """设置曝光时间。
 
-        规则：100 ≤ 曝光时间 ≤ 30000。
+        规则：15 ≤ 曝光时间 ≤ 20000。
 
         Parameters
         ----------
@@ -369,7 +369,7 @@ class RGBCameraParam(object):
         int
             ``MV_OK`` 成功；非法返回错误码。
         """
-        if not isinstance(exposure_time, int) or not (100 <= exposure_time <= 30000):
+        if not isinstance(exposure_time, int) or not (15 <= exposure_time <= 20000):
             logger.error("Set exposure time failed: illegal parameter")
             return not MV_OK
         self.exposure_time = exposure_time
@@ -379,7 +379,7 @@ class RGBCameraParam(object):
     def set_gain(self, gain: int):
         """设置增益。
 
-        规则：0 ≤ 增益 ≤ 24。
+        规则：0 ≤ 增益 ≤ 17。
 
         Parameters
         ----------
@@ -398,10 +398,10 @@ class RGBCameraParam(object):
         logger.info("Set gain successes: %d", gain)
         return MV_OK
 
-    def set_frame_rate(self, frame_rate: int):
+    def set_frame_rate(self, frame_rate: float):
         """设置帧率。
 
-        规则：0.1 ≤ 帧率 ≤ 60.0。
+        规则：0.1 ≤ 帧率 ≤ 80.0。
 
         Parameters
         ----------
@@ -413,7 +413,7 @@ class RGBCameraParam(object):
         int
             ``MV_OK`` 成功；非法返回错误码。
         """
-        if not isinstance(frame_rate, (int, float)) or not (0.1 <= frame_rate <= 60.0):
+        if not isinstance(frame_rate, float) or not (0.1 <= frame_rate <= 80.0):
             logger.error("Set frame rate failed: illegal parameter")
             return not MV_OK
         self.frame_rate = float(frame_rate)

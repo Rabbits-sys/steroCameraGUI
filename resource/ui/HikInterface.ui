@@ -138,10 +138,10 @@
         <bool>false</bool>
        </property>
        <property name="minimum">
-        <number>100</number>
+        <number>15</number>
        </property>
        <property name="maximum">
-        <number>30000</number>
+        <number>20000</number>
        </property>
        <property name="singleStep">
         <number>100</number>
@@ -205,13 +205,16 @@
         <bool>false</bool>
        </property>
        <property name="minimum">
-        <number>10</number>
+        <number>1</number>
        </property>
        <property name="maximum">
-        <number>70</number>
+        <number>80</number>
        </property>
        <property name="singleStep">
         <number>5</number>
+       </property>
+       <property name="value">
+        <number>1</number>
        </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

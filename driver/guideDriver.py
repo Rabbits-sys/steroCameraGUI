@@ -121,7 +121,7 @@ class IRCamera(object):
         """
         if self.handle is None or not self._logged_in:
             logger.warning("Already logout")
-            return SGP_OK
+            # return SGP_OK
         ret = logout(self.handle)
         self._logged_in = False
         if ret == SGP_OK:
@@ -368,8 +368,8 @@ class IRCamera(object):
         """
         if self._ensure_handle() != SGP_OK:
             return not SGP_OK, None
-        ret, p = get_thermometry_param(self.handle)
-        if ret == SGP_OK:
+        p = get_thermometry_param(self.handle)
+        if p:
             logger.info("Get thermometry param successes")
             return SGP_OK, p
         logger.error("Get thermometry param failed: %d", ret)
@@ -479,14 +479,14 @@ class IRCameraParam(object):
     def __init__(self):
         self.server: str = '192.168.1.168'
         self.username: str = 'admin'
-        self.password: str = '12345'
+        self.password: str = 'admin123'
         self.port: int = 80
 
     def _reset_param(self):
         """重置为默认参数。"""
         self.server = '192.168.1.168'
         self.username = 'admin'
-        self.password = '12345'
+        self.password = 'admin123'
         self.port = 80
 
     def set_server(self, server: str):

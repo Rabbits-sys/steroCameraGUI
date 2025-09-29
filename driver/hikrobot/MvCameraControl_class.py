@@ -18,7 +18,6 @@ if "winmode" in ctypes.WinDLL.__init__.__code__.co_varnames:
 else:
     MvCamCtrldll = WinDLL(dllname)
 
-
 # 用于回调函数传入相机实例
 class _MV_PY_OBJECT_(Structure):
     pass

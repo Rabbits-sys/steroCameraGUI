@@ -731,7 +731,7 @@ class Window(SplitFluentWindow):
         irColorCode = self.homeInterface.guideInterface.guideColorComboBox.currentIndex()
 
         stateBrowserMarkdown = ""
-        stateBrowserMarkdown += "#### 📸**RGB相机**: \n"
+        stateBrowserMarkdown += "#### 📸 **RGB 相机**: \n"
         if rgbOpen:
             stateBrowserMarkdown += "状态: 已开启 | "
         else:
@@ -745,7 +745,7 @@ class Window(SplitFluentWindow):
             stateBrowserMarkdown += "增益: " + str(gain) + "\n"
             stateBrowserMarkdown += "帧率: " + str(frameRate) + " fps\n"
 
-        stateBrowserMarkdown += "#### 📹**IR相机**: \n"
+        stateBrowserMarkdown += "#### 📹 **IR 相机**: \n"
         if irOpen:
             stateBrowserMarkdown += "状态: 已开启 | "
         else:

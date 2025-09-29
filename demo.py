@@ -45,10 +45,10 @@ class Window(SplitFluentWindow):
 
         # create splash screen and show window
         self.splashScreen = SplashScreen(self.windowIcon(), self)
-        self.splashScreen.setIconSize(QSize(102, 102))
+        self.splashScreen.setIconSize(QSize(200, 200))
         self.show()
         loop = QEventLoop(self)
-        QTimer.singleShot(200, loop.quit)
+        QTimer.singleShot(500, loop.quit)
         loop.exec()
 
         self.paramConfig: Optional[QSettings] = None

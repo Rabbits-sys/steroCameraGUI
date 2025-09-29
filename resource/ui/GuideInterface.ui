@@ -239,6 +239,136 @@
          <property name="enabled">
           <bool>false</bool>
          </property>
+         <item>
+          <property name="text">
+           <string>白热</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>黑热</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>铁红</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>熔岩</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>热铁</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>医疗</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>医疗0</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>医疗1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>医疗2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>北极</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>人体筛查</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>彩虹1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>彩虹2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>彩虹3</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>描红1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>描红2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>描红3</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>冰火</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>反冰火</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>分层</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>深褐</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>绿热</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>蓝热</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>冬季</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>高亮</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>琥珀</string>
+          </property>
+         </item>
         </widget>
        </item>
       </layout>

@@ -20,7 +20,7 @@ SGP_FOCUS_AUTO = 5
 SGP_HANDLE = ct.c_ulonglong
 
 # Resolve DLL directory (parent folder contains SgpApi.dll)
-_ROOT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'sdk')
+_ROOT_DIR = os.path.join(os.getcwd(), 'sdk')
 
 # Ensure dependent DLLs can be found on Windows 10+ / Python 3.8+
 if hasattr(os, 'add_dll_directory'):
@@ -28,7 +28,8 @@ if hasattr(os, 'add_dll_directory'):
         os.add_dll_directory(_ROOT_DIR)
     except FileNotFoundError:
         pass
-
+else:
+    os.environ['PATH'] = _ROOT_DIR + os.pathsep + os.environ.get('PATH', '')
 _DLL_PATH = os.path.join(_ROOT_DIR, 'SgpApi.dll')
 if not os.path.isfile(_DLL_PATH):
     raise FileNotFoundError('SgpApi.dll not found at: %s' % _DLL_PATH)

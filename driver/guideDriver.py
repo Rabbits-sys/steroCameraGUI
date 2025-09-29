@@ -72,43 +72,14 @@ class IRCamera(object):
                 logger.error("Init device failed, handle = 0")
             logger.info("Init device successes, handle = %s", self.handle)
 
-    def __enter__(self):
-        """进入上下文管理器时自动执行 :meth:`login`。
-
-        Returns
-        -------
-        IRCamera
-            当前实例，便于 ``with IRCamera() as cam:`` 形式使用。
-        """
-        self.login()
-        return self
-
-    def __exit__(self, exc_type, exc, tb):
-        """离开上下文时进行资源清理。
-
-        执行顺序：关闭视频 -> 停止全部录像 -> 注销登录 -> 释放句柄。
-        过程中任何一步出错均被捕获并写日志，不向外抛异常。
-        """
-        try:
-            self.close_ir_video()
-        except Exception:
-            pass
-        try:
-            for t in list(self._recording_types):
-                try:
-                    self.stop_record(t)
-                except Exception:
-                    pass
-        finally:
-            self.logout()
-            self.release()
-
     def __del__(self):
         """析构时的兜底清理。
 
         若仍处于登录或占用状态，尝试释放相关资源。忽略所有异常。
         """
         try:
+            if self._video_opened:
+                self.close_ir_video()
             if self._logged_in:
                 self.logout()
             self.release()

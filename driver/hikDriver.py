@@ -73,6 +73,15 @@ class RGBCamera(object):
         self.logged_in = False
         self.video_opened = False
 
+    def __del__(self):
+        try:
+            if self.video_opened:
+                self.hk_stop_grabbing()
+            if self.logged_in:
+                self.hk_close_device()
+        except Exception:
+            pass
+
     def hk_enum_devices(self):
         """枚举可用相机设备。
 

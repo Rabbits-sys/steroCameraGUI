@@ -13,7 +13,7 @@
 
 使用示例
 --------
->>> from demo import main  # 直接运行本文件亦可
+# >>> from demo import main  # 直接运行本文件亦可
 
 说明
 ----
@@ -27,6 +27,9 @@ import logging
 import ctypes as ct
 from datetime import datetime
 
+from view.Ui_StoreInterface import Ui_StoreInterface
+
+# 将调试信息记录到 program.log 文件
 logging.basicConfig(filename='program.log', filemode='w', level=logging.DEBUG)
 
 from typing import Optional
@@ -39,10 +42,12 @@ from qfluentwidgets import ( setTheme, Theme, InfoBar, InfoBarPosition,
 from qfluentwidgets import FluentIcon as FIF
 
 from view.home_interface import HomeInterface
+from view.render_interface import RenderInterface
 
 from driver.guideDriver import IRCamera
 from driver.hikDriver import RGBCamera
 from storeManage import StoreManage
+from render import load_single_ir_temp, load_all_ir_temp, save_ir_img
 
 logger = logging.getLogger(__name__)
 
@@ -82,16 +87,20 @@ class Window(SplitFluentWindow):
 
     def __init__(self):
         super().__init__()
-        self.rgbOpenFlag = False
-        self.rgbBusyFlag = False
-        self.irOpenFlag = False
-        self.irBusyFlag = False
+        # 状态标志
+        self.rgbOpenFlag = False # RGB相机开启状态
+        self.rgbBusyFlag = False # RGB相机采样状态
+        self.irOpenFlag = False # IR相机登录状态
+        self.irBusyFlag = False # IR相机采样状态
 
-        self.homeInterface = HomeInterface(self)
+        self.homeInterface = HomeInterface(self) # 主界面聚合对象
 
-        self.initNavigation()
-        self.initWindow()
+        self.renderInterface = RenderInterface(self) # 温度矩阵渲染界面
 
+        self.initNavigation() # 初始化导航/子界面
+        self.initWindow() # 初始化窗口外观与居中位置
+
+        # 启动画面
         self.splashScreen = SplashScreen(self.windowIcon(), self)
         self.splashScreen.setIconSize(QSize(200, 200))
         self.show()
@@ -99,14 +108,14 @@ class Window(SplitFluentWindow):
         QTimer.singleShot(500, loop.quit)
         loop.exec()
 
-        self.paramConfig: Optional[QSettings] = None
-        self.rgbDriver = RGBCamera()
-        self.irDriver = IRCamera()
-        self.storeManage = StoreManage()
+        self.paramConfig: Optional[QSettings] = None # 配置管理器
+        self.rgbDriver = RGBCamera() # RGB相机驱动
+        self.irDriver = IRCamera() # IR相机驱动
+        self.storeManage = StoreManage() # 存储管理
 
-        self.initParam()
-        self.initDisplay()
-        self.initSlot()
+        self.initParam() # 参数初始化
+        self.initDisplay() # 根据当前参数刷新界面默认值
+        self.initSlot() # 连接所有信号与槽
 
         self.splashScreen.finish()
 
@@ -116,6 +125,7 @@ class Window(SplitFluentWindow):
     def initNavigation(self):
         """初始化导航/子界面。"""
         self.addSubInterface(self.homeInterface, FIF.HOME, '主页')
+        self.addSubInterface(self.renderInterface, FIF.PHOTO, '红外温度矩阵渲染')
         self.navigationInterface.setExpandWidth(140)
 
     def initWindow(self):
@@ -129,7 +139,7 @@ class Window(SplitFluentWindow):
 
     def initSettings(self):
         """创建或刷新 QSettings 实例。"""
-        self.paramConfig = QSettings('config.ini', QSettings.IniFormat)
+        self.paramConfig = QSettings('config.ini', QSettings.IniFormat) # 创建 QSettings 实例，关联到 config.ini 文件，为后续的参数读写做准备
 
     def initParam(self):
         """加载或初始化参数。
@@ -140,18 +150,19 @@ class Window(SplitFluentWindow):
         - 若存在：尝试加载；若某块参数非法 -> 重置并提示。
         """
         if not os.path.exists('config.ini'):
+            # 用户提示
             InfoBar.info(
                 title='[参数加载]',
                 content='创建配置文件 config.ini',
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.BOTTOM_RIGHT,
-                duration=-1,
-                parent=self
+                orient=Qt.Horizontal, # 水平方向布局
+                isClosable=True, # 用户可手动关闭
+                position=InfoBarPosition.BOTTOM_RIGHT, # 右下角显示
+                duration=-1, # -1 表示永久显示，直到用户关闭
+                parent=self # 父组件为主窗口
             )
-            self.initSettings()
-            self.irDriver.param.reset_param_of_file(self.paramConfig)
-            self.storeManage.reset_param_of_file(self.paramConfig)
+            self.initSettings() # 创建 QSettings 实例
+            self.irDriver.param.reset_param_of_file(self.paramConfig) # 红外相机参数：设置默认的服务器地址、端口、用户名、密码等
+            self.storeManage.reset_param_of_file(self.paramConfig) # 设置默认的存储路径、保存选项等
         else:
             self.initSettings()
             if self.irDriver.param.load_param_from_file(self.paramConfig):
@@ -197,11 +208,11 @@ class Window(SplitFluentWindow):
     def initSlot(self):
         """连接所有信号与槽。"""
         # RGB
-        self.homeInterface.hikInterface.hikEnumButton.clicked.connect(self.hikEnumButtonClicked)
-        self.homeInterface.hikInterface.hikOpenButton.toggled.connect(lambda checked: self.hikOpenButtonClicked(checked))
-        self.homeInterface.hikInterface.hikGainSlider.sliderReleased.connect(self.hikGainSliderReleased)
-        self.homeInterface.hikInterface.hikExposeSlider.sliderReleased.connect(self.hikExposeSliderReleased)
-        self.homeInterface.hikInterface.hikFrameRateSlider.sliderReleased.connect(self.hikFrameRateSliderReleased)
+        self.homeInterface.hikInterface.hikEnumButton.clicked.connect(self.hikEnumButtonClicked) # 枚举设备
+        self.homeInterface.hikInterface.hikOpenButton.toggled.connect(lambda checked: self.hikOpenButtonClicked(checked)) # 打开设备
+        self.homeInterface.hikInterface.hikGainSlider.sliderReleased.connect(self.hikGainSliderReleased) # 数字增益
+        self.homeInterface.hikInterface.hikExposeSlider.sliderReleased.connect(self.hikExposeSliderReleased) # 曝光时间
+        self.homeInterface.hikInterface.hikFrameRateSlider.sliderReleased.connect(self.hikFrameRateSliderReleased) # 相机帧率
         # IR
         self.homeInterface.guideInterface.guideLoadButton.toggled.connect(lambda checked: self.guideLoadButtonClicked(checked))
         self.homeInterface.guideInterface.guideColorCheckBox.clicked.connect(self.guideColorCheckClicked)
@@ -216,6 +227,10 @@ class Window(SplitFluentWindow):
         # State
         self.homeInterface.stateStartButton.toggled.connect(lambda checked: self.startButtonClicked(checked))
         self.homeInterface.stateGrabButton.clicked.connect(self.stateGrabButtonClicked)
+        # Render
+        self.renderInterface.fileCard.clicked.connect(self.renderOneButtonClicked) # 渲染单个温度矩阵
+        self.renderInterface.dirCard.clicked.connect(self.renderAllButtonClicked) # 渲染所有温度矩阵
+
 
     # ------------------------------------------------------------------
     # RGB 相机处理
@@ -833,8 +848,8 @@ class Window(SplitFluentWindow):
                 )
                 return
         if self.irBusyFlag:
-            if self.storeManage.save_ir_img:
-                ret = self.irDriver.get_heatmap(fileName + '_ir.jpg')
+            if self.storeManage.save_ir_img: # 保存红外原始图像
+                ret = self.irDriver.get_heatmap(fileName + '_ir.jpg') # 保存红外热力图
                 if ret:
                     InfoBar.error(
                         title='[IR相机]',
@@ -845,7 +860,7 @@ class Window(SplitFluentWindow):
                         duration=2000,
                         parent=self
                     )
-            if self.storeManage.save_ir_temp:
+            if self.storeManage.save_ir_temp: # 保存红外温度矩阵
                 ret, temp = self.irDriver.get_image_temps(384 * 512)
                 if ret:
                     InfoBar.error(
@@ -965,16 +980,100 @@ class Window(SplitFluentWindow):
     def stateGrubUnfrozen(self):
         self.homeInterface.stateGrabButton.setEnabled(True)
 
+# ------------------------------------------------------------------
+# 红外温度矩阵渲染
+# ------------------------------------------------------------------
+    def renderOneButtonClicked(self):
+        """选择目录并持久化。"""
+        filePath, _ = QFileDialog.getOpenFileName(
+            self,
+            '选择JSON文件',
+            self.storeManage.store_path,  # 初始目录
+            "JSON Files (*.json)"  # 文件过滤器
+        )
+        if filePath:
+            self.renderInterface.fileCard.setContent(filePath)
+
+            ir_temp_dict = load_single_ir_temp(filePath)
+            if ir_temp_dict == None:
+                InfoBar.error(
+                    title='[渲染]',
+                    content='渲染失败！%s文件夹下无温度矩阵文件' % self.storeManage.store_path,
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.BOTTOM_RIGHT,
+                    duration=2000,
+                    parent=self
+                )
+            else:
+                for filename, ir_temp in ir_temp_dict.items():
+                    output_path = self.storeManage.store_path + '/' + filename + '.jpg'
+                    save_ir_img(output_path, ir_temp)
+                    image = QImage(output_path)
+                    self.renderInterface.irLabel.setPixmap(QPixmap.fromImage(image))
+                InfoBar.success(
+                    title='[渲染]',
+                    content='渲染成功！' ,
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.BOTTOM_RIGHT,
+                    duration=2000,
+                    parent=self
+                )
+
+
+    def renderAllButtonClicked(self):
+        """选择目录并持久化。"""
+        dirPath = QFileDialog.getExistingDirectory(
+            self,
+            '选择目录',
+            os.getcwd(),
+            )
+        if dirPath:
+            self.renderInterface.dirCard.setContent(dirPath)
+
+            ir_temp_dict = load_all_ir_temp(dirPath)
+            if ir_temp_dict == None:
+                InfoBar.error(
+                    title='[渲染]',
+                    content='渲染失败！%s文件夹下无温度矩阵文件' % self.storeManage.store_path,
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.BOTTOM_RIGHT,
+                    duration=2000,
+                    parent=self
+                )
+            else:
+                for filename, ir_temp in ir_temp_dict.items():
+                    output_path = self.storeManage.store_path + '/' + filename + '.jpg'
+                    save_ir_img(output_path, ir_temp)
+                InfoBar.success(
+                    title='[渲染]',
+                    content='渲染成功！请到%s文件夹下查看' % self.storeManage.store_path,
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.BOTTOM_RIGHT,
+                    duration=2000,
+                    parent=self
+                )
+
 
 if __name__ == '__main__':
+    # 高DPI显示设置
     QApplication.setHighDpiScaleFactorRoundingPolicy(
         Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
+    # 高DPI支持启用
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
+    # 主题设置
     setTheme(Theme.DARK)
+    # 应用程序初始化
     app = QApplication(sys.argv)
+    # 国际化支持
     translator = FluentTranslator()
     app.installTranslator(translator)
+    # 创建并显示窗口
     w = Window()
     w.show()
+    # 启动事件循环
     app.exec_()

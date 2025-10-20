@@ -53,7 +53,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <layout class="QVBoxLayout" name="settingVerticalLayout_1" stretch="0,0,0,1,0,1">
+         <layout class="QVBoxLayout" name="settingVerticalLayout_1" stretch="0,0,0,1,0,0,0,1">
           <property name="spacing">
            <number>7</number>
           </property>
@@ -193,6 +193,46 @@
            </layout>
           </item>
           <item>
+           <spacer name="verticalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>10</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="StrongBodyLabel" name="label">
+              <property name="text">
+               <string>渲染进度：</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="ProgressBar" name="renderProgressBar">
+              <property name="value">
+               <number>0</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
            <spacer name="verticalSpacer_3">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -326,6 +366,11 @@
    <class>StrongBodyLabel</class>
    <extends>QLabel</extends>
    <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>ProgressBar</class>
+   <extends>QProgressBar</extends>
+   <header location="global">qfluentwidgets.h</header>
   </customwidget>
  </customwidgets>
  <resources>

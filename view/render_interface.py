@@ -15,7 +15,9 @@ class RenderInterface(Ui_RenderInterface, QWidget):
         # self.renderOneButton.setIcon(FluentIcon.PLAY)
         # self.renderAllButton.setIcon(FluentIcon.PHOTO)
 
-        self.irLabel.setScaledContents(True)
+        self.irLabel.setScaledContents(False)
+
+        self.renderProgressRing.setTextVisible(True)
 
         self.setShadowEffect(self.settingCard)
         self.setShadowEffect(self.irCard)

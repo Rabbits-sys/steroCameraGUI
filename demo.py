@@ -45,7 +45,9 @@ from view.render_interface import RenderInterface
 from driver.guideDriver import IRCamera
 from driver.hikDriver import RGBCamera
 from storeManage import StoreManage
-from render_thread import RenderThread
+# from render_thread import RenderThread
+from render import render_temp2img
+from functionWorker import LoopWorkerSignals, FunctionLoopWorker
 
 logger = logging.getLogger(__name__)
 
@@ -989,12 +991,9 @@ class Window(SplitFluentWindow):
             self.renderInterface.fileCard.setContent(filePath)
             self.renderInterface.fileCard.setEnabled(False)
 
-            self.renderThread[0] = RenderThread(filePath)
-            self.renderThread[0].sigSetProgress.connect(self.onShowRenderProgress)
-            self.renderThread[0].sigShowIrImage.connect(self.onShowIrImage)
-            self.renderThread[0].sigTaskFinished.connect(self.OnshowRenderInfo)
-            self.renderThread[0].finished.connect(self.renderOneThreadFinished)
-
+            self.renderThread[0] = FunctionLoopWorker(render_temp2img, filePath)
+            self.renderThread[0].signals.step.connect(self.onShowRenderProgressInfo)
+            self.renderThread[0].signals.result.connect(self.renderOneThreadFinished)
             self.renderThread[0].start()
 
     def renderAllButtonClicked(self):
@@ -1004,28 +1003,36 @@ class Window(SplitFluentWindow):
             os.getcwd(),
             )
         if dirPath:
-            self.renderThread[1] = RenderThread(dirPath)
-
             self.renderInterface.dirCard.setContent(dirPath)
             self.renderInterface.dirCard.setEnabled(False)
 
-            self.renderThread[1].sigSetProgress.connect(self.onShowRenderProgress)
-            self.renderThread[1].sigTaskFinished.connect(self.OnshowRenderInfo)
-            self.renderThread[1].finished.connect(self.renderAllThreadFinished)
-
+            self.renderThread[1] = FunctionLoopWorker(render_temp2img, dirPath)
+            self.renderThread[1].signals.step.connect(self.onShowRenderProgressInfo)
+            self.renderThread[1].signals.result.connect(self.renderAllThreadFinished)
             self.renderThread[1].start()
 
-    def onShowRenderProgress(self,value:int):
-        self.renderInterface.renderProgressBar.setValue(value)
 
-    def onShowIrImage(self,image:QImage):
-        self.renderInterface.irLabel.setPixmap(QPixmap.fromImage(image))
+    def onShowRenderProgressInfo(self, progress_info: dict):
+        self.renderInterface.renderProgressRing.setValue(progress_info['progress_value'])
+        text = self.renderInterface.renderInforBrowser.toPlainText()
+        text += str(progress_info['message']) + "\n"
+        self.renderInterface.renderInforBrowser.setPlainText(text)
 
-    def OnshowRenderInfo(self,Path:str,render_num:int):
-        if render_num == 0:
-            InfoBar.error(
+
+    def renderOneThreadFinished(self, result: dict):
+        self.renderInterface.fileCard.setEnabled(True)
+        if result:
+            pixmap = QPixmap.fromImage(result['last_image'])
+            # 计算适合标签大小的缩放尺寸
+            pixmap = pixmap.scaled(
+                self.renderInterface.irLabel.size(),
+                Qt.KeepAspectRatio,
+                Qt.SmoothTransformation
+            )
+            self.renderInterface.irLabel.setPixmap(pixmap)  # 展示图像
+            InfoBar.success(
                 title='[渲染]',
-                content='渲染失败！路径：%s' %Path ,
+                content='渲染完成！' ,
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.BOTTOM_RIGHT,
@@ -1033,22 +1040,39 @@ class Window(SplitFluentWindow):
                 parent=self
             )
         else:
-            InfoBar.success(
+            InfoBar.error(
                 title='[渲染]',
-                content='渲染成功！路径：%s' %Path ,
+                content='渲染失败！' ,
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.BOTTOM_RIGHT,
                 duration=2000,
                 parent=self
             )
-
-    def renderOneThreadFinished(self):
-        self.renderInterface.fileCard.setEnabled(True)
         self.renderThread[0] = None
 
-    def renderAllThreadFinished(self):
+    def renderAllThreadFinished(self, result: dict):
         self.renderInterface.dirCard.setEnabled(True)
+        if result:
+            InfoBar.success(
+                title='[渲染]',
+                content='渲染完成！' ,
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.BOTTOM_RIGHT,
+                duration=2000,
+                parent=self
+            )
+        else:
+            InfoBar.error(
+                title='[渲染]',
+                content='渲染失败！' ,
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.BOTTOM_RIGHT,
+                duration=2000,
+                parent=self
+            )
         self.renderThread[1] = None
 
 

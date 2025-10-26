@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1357</width>
-    <height>792</height>
+    <width>1524</width>
+    <height>632</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,7 +35,7 @@
       <widget class="CardWidget" name="settingCard">
        <property name="minimumSize">
         <size>
-         <width>400</width>
+         <width>500</width>
          <height>400</height>
         </size>
        </property>
@@ -53,7 +53,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <layout class="QVBoxLayout" name="settingVerticalLayout_1" stretch="0,0,0,1,0,0,0,1">
+         <layout class="QVBoxLayout" name="settingVerticalLayout_1" stretch="0,0,0,0,0,1,0,1,1">
           <property name="spacing">
            <number>7</number>
           </property>
@@ -124,7 +124,7 @@
            </layout>
           </item>
           <item>
-           <spacer name="verticalSpacer">
+           <spacer name="verticalSpacer_1">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -164,6 +164,9 @@
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
@@ -193,49 +196,74 @@
            </layout>
           </item>
           <item>
-           <spacer name="verticalSpacer_4">
+           <spacer name="verticalSpacer_3">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
+             <enum>QSizePolicy::Expanding</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>10</width>
+              <width>20</width>
               <height>40</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="leftMargin">
+             <number>20</number>
+            </property>
             <property name="topMargin">
-             <number>0</number>
+             <number>10</number>
+            </property>
+            <property name="rightMargin">
+             <number>20</number>
+            </property>
+            <property name="bottomMargin">
+             <number>10</number>
             </property>
             <item>
-             <widget class="StrongBodyLabel" name="label">
-              <property name="text">
-               <string>渲染进度：</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="ProgressBar" name="renderProgressBar">
-              <property name="value">
-               <number>0</number>
+             <widget class="TextBrowser" name="renderInforBrowser">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>200</height>
+               </size>
               </property>
              </widget>
             </item>
            </layout>
           </item>
           <item>
-           <spacer name="verticalSpacer_3">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="ProgressRing" name="renderProgressRing">
+              <property name="value">
+               <number>0</number>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_4">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Expanding</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -254,8 +282,14 @@
       <widget class="CardWidget" name="irCard">
        <property name="minimumSize">
         <size>
-         <width>380</width>
-         <height>0</height>
+         <width>950</width>
+         <height>550</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
         </size>
        </property>
        <property name="frameShape">
@@ -368,7 +402,12 @@
    <header>qfluentwidgets</header>
   </customwidget>
   <customwidget>
-   <class>ProgressBar</class>
+   <class>TextBrowser</class>
+   <extends>QTextBrowser</extends>
+   <header location="global">qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>ProgressRing</class>
    <extends>QProgressBar</extends>
    <header location="global">qfluentwidgets.h</header>
   </customwidget>

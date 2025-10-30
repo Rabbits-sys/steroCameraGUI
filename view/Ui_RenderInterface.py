@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_RenderInterface(object):
     def setupUi(self, RenderInterface):
         RenderInterface.setObjectName("RenderInterface")
-        RenderInterface.resize(1524, 632)
+        RenderInterface.resize(1532, 632)
         self.verticalLayout = QtWidgets.QVBoxLayout(RenderInterface)
         self.verticalLayout.setObjectName("verticalLayout")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
@@ -112,12 +112,15 @@ class Ui_RenderInterface(object):
         self.irVerticalLayout_2.setObjectName("irVerticalLayout_2")
         self.irLabel = QtWidgets.QLabel(self.irCard)
         self.irLabel.setText("")
+        self.irLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.irLabel.setObjectName("irLabel")
         self.irVerticalLayout_2.addWidget(self.irLabel)
         self.irVerticalLayout_1.addLayout(self.irVerticalLayout_2)
         self.irVerticalLayout_1.setStretch(1, 1)
         self.verticalLayout_4.addLayout(self.irVerticalLayout_1)
         self.horizontalLayout.addWidget(self.irCard)
+        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem5)
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.retranslateUi(RenderInterface)

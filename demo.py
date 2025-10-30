@@ -993,18 +993,18 @@ class Window(SplitFluentWindow):
         ctx = self.render_context
         md = ""
         if ctx['type'] == 'file':
-            md += f"### 当前打开：文件\n"
+            md += f"### 🏷️ 当前打开：文件\n"
             md += f"`{ctx['path']}`\n\n"
-            status = ctx.get('status', '未开始')
-            md += f"- 状态：{status}\n"
+            status = ctx.get('status', '🟨')
+            md += f"#### 状态：{status}\n"
         elif ctx['type'] == 'folder':
-            md += f"### 当前打开：文件夹\n"
+            md += f"### 📂 当前打开：文件夹\n"
             md += f"`{ctx['path']}`\n\n"
-            md += f"#### 文件列表（温度矩阵 JSON）\n"
+            md += f"#### 🚀 文件列表（温度矩阵 JSON）\n"
             files = ctx.get('files', [])
             status_map = ctx.get('status_map', {})
             for name in files:
-                st = status_map.get(name, '未开始')
+                st = status_map.get(name, '🟨')
                 md += f"- {name}.json：{st}\n"
         return md
 
@@ -1030,7 +1030,7 @@ class Window(SplitFluentWindow):
                 'type': 'file',
                 'path': filePath,
                 'filename': os.path.splitext(os.path.basename(filePath))[0],
-                'status': '渲染中'
+                'status': '🟨'
             }
             self.renderInterface.renderProgressRing.setValue(0)
             self._refresh_render_info_browser()
@@ -1044,7 +1044,7 @@ class Window(SplitFluentWindow):
         if dirPath:
             self.renderInterface.dragDropArea.setEnabled(False)
             files = self._list_json_in_dir(dirPath)
-            status_map = {name: '未开始' for name in files}
+            status_map = {name: '🟨' for name in files}
             self.render_context = {
                 'type': 'folder',
                 'path': dirPath,
@@ -1073,11 +1073,11 @@ class Window(SplitFluentWindow):
                 if self.render_context:
                     if self.render_context['type'] == 'file':
                         # 单文件：只要收到进度即可视为完成保存
-                        self.render_context['status'] = '已完成'
+                        self.render_context['status'] = '🟩'
                     elif self.render_context['type'] == 'folder':
                         # 文件夹：标记该文件为已完成
                         status_map = self.render_context.get('status_map', {})
-                        status_map[name] = '已完成'
+                        status_map[name] = '🟩'
         except Exception as e:
             logger.exception(e)
         finally:
@@ -1101,7 +1101,7 @@ class Window(SplitFluentWindow):
             self.renderInterface.irLabel.setPixmap(pixmap)
             # 更新文本状态
             if self.render_context and self.render_context.get('type') == 'file':
-                self.render_context['status'] = '已完成'
+                self.render_context['status'] = '🟩'
                 self._refresh_render_info_browser()
             InfoBar.success(
                 title='[渲染]',
@@ -1132,8 +1132,8 @@ class Window(SplitFluentWindow):
             if self.render_context and self.render_context.get('type') == 'folder':
                 status_map = self.render_context.get('status_map', {})
                 for name in self.render_context.get('files', []):
-                    if status_map.get(name) != '已完成':
-                        status_map[name] = '已完成'
+                    if status_map.get(name) != '🟩':
+                        status_map[name] = '🟩'
                 self._refresh_render_info_browser()
             InfoBar.success(
                 title='[渲染]',

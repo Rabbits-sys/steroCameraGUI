@@ -23,7 +23,6 @@ def render_temp2img(step_signal, path, height=384, width=512):
     elif os.path.isdir(path):
         logger.info(f"Choose rendering all JSON files in the directory {path}")
         dir = path
-
     ir_temp_dict = load_ir_temp(path)
     count = 0
     if ir_temp_dict:

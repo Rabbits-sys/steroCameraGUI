@@ -53,9 +53,9 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <layout class="QVBoxLayout" name="settingVerticalLayout_1" stretch="0,0,0,0,0,1,0,1,1">
+         <layout class="QVBoxLayout" name="settingVerticalLayout_1" stretch="0,0,0,1,1">
           <property name="spacing">
-           <number>7</number>
+           <number>2</number>
           </property>
           <item>
            <layout class="QHBoxLayout" name="settingHorizontalLayout_1" stretch="0,0,0,0">
@@ -124,92 +124,17 @@
            </layout>
           </item>
           <item>
-           <spacer name="verticalSpacer_1">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
+           <layout class="QVBoxLayout" name="settingVerticalLayout_2">
+            <property name="leftMargin">
+             <number>20</number>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>10</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="settingVerticalLayout_2" stretch="0,0">
             <property name="topMargin">
-             <number>0</number>
+             <number>10</number>
             </property>
-            <item>
-             <widget class="StrongBodyLabel" name="settingModeLabel_1">
-              <property name="text">
-               <string>模式一: 单个矩阵渲染并展示</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="settingFileVerticalLayout"/>
-            </item>
+            <property name="rightMargin">
+             <number>20</number>
+            </property>
            </layout>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="settingVerticalLayout_3">
-            <property name="topMargin">
-             <number>0</number>
-            </property>
-            <item>
-             <widget class="StrongBodyLabel" name="settingModeLabel_2">
-              <property name="text">
-               <string>模式二: 所有矩阵渲染并保存</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="settingDirVerticalLayout"/>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -223,14 +148,14 @@
              <number>20</number>
             </property>
             <property name="bottomMargin">
-             <number>10</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="TextBrowser" name="renderInforBrowser">
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>200</height>
+                <height>150</height>
                </size>
               </property>
              </widget>
@@ -247,6 +172,12 @@
             </property>
             <item>
              <widget class="ProgressRing" name="renderProgressRing">
+              <property name="minimumSize">
+               <size>
+                <width>180</width>
+                <height>180</height>
+               </size>
+              </property>
               <property name="value">
                <number>0</number>
               </property>

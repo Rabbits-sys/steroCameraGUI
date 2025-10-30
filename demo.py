@@ -26,7 +26,6 @@ import json
 import logging
 import ctypes as ct
 from datetime import datetime
-import threading
 
 logging.basicConfig(filename='program.log', filemode='w', level=logging.DEBUG)
 
@@ -45,9 +44,8 @@ from view.render_interface import RenderInterface
 from driver.guideDriver import IRCamera
 from driver.hikDriver import RGBCamera
 from storeManage import StoreManage
-# from render_thread import RenderThread
 from render import render_temp2img
-from functionWorker import LoopWorkerSignals, FunctionLoopWorker
+from functionWorker import FunctionLoopWorker
 
 logger = logging.getLogger(__name__)
 
@@ -96,6 +94,14 @@ class Window(SplitFluentWindow):
 
         self.renderInterface = RenderInterface(self)
         self.renderThread = {}
+        # 渲染信息上下文：跟踪当前文件/文件夹与每个JSON文件的完成状态
+        # 约定：
+        # - type: 'file' | 'folder'
+        # - path: 打开的路径
+        # - filename: 当前单文件时的文件名（不含路径）
+        # - files: List[str] 文件夹时所有json文件名（不带扩展名）
+        # - status_map: Dict[str, str] 各文件的状态：'未开始' | '已完成'
+        self.render_context = None
 
         self.initNavigation()
         self.initWindow()
@@ -226,8 +232,8 @@ class Window(SplitFluentWindow):
         self.homeInterface.stateStartButton.toggled.connect(lambda checked: self.startButtonClicked(checked))
         self.homeInterface.stateGrabButton.clicked.connect(self.stateGrabButtonClicked)
         # Render
-        self.renderInterface.fileCard.clicked.connect(self.renderOneButtonClicked)
-        self.renderInterface.dirCard.clicked.connect(self.renderAllButtonClicked)
+        self.renderInterface.dragDropArea.fileDropped.connect(lambda filePath: self.renderFileDropped(filePath))
+        self.renderInterface.dragDropArea.dirDropped.connect(lambda dirPath: self.renderDirDropped(dirPath))
 
     # ------------------------------------------------------------------
     # RGB 相机处理
@@ -978,33 +984,75 @@ class Window(SplitFluentWindow):
         self.homeInterface.stateGrabButton.setEnabled(True)
 
 # ------------------------------------------------------------------
-# 红外温度矩阵渲染
+# 红外温度矩阵渲染 - Markdown信息展示与渲染流程
 # ------------------------------------------------------------------
-    def renderOneButtonClicked(self):
-        filePath, _ = QFileDialog.getOpenFileName(
-            self,
-            '选择JSON文件',
-            self.storeManage.store_path,
-            "JSON Files (*.json)"
-        )
+    def _build_render_markdown(self):
+        """根据当前render_context构建中文Markdown文本。"""
+        if not self.render_context:
+            return ""
+        ctx = self.render_context
+        md = ""
+        if ctx['type'] == 'file':
+            md += f"### 当前打开：文件\n"
+            md += f"`{ctx['path']}`\n\n"
+            status = ctx.get('status', '未开始')
+            md += f"- 状态：{status}\n"
+        elif ctx['type'] == 'folder':
+            md += f"### 当前打开：文件夹\n"
+            md += f"`{ctx['path']}`\n\n"
+            md += f"#### 文件列表（温度矩阵 JSON）\n"
+            files = ctx.get('files', [])
+            status_map = ctx.get('status_map', {})
+            for name in files:
+                st = status_map.get(name, '未开始')
+                md += f"- {name}.json：{st}\n"
+        return md
+
+    def _refresh_render_info_browser(self):
+        self.renderInterface.renderInforBrowser.setMarkdown(self._build_render_markdown())
+
+    def _list_json_in_dir(self, dir_path: str):
+        try:
+            names = []
+            for f in os.listdir(dir_path):
+                if f.lower().endswith('.json') and os.path.isfile(os.path.join(dir_path, f)):
+                    names.append(os.path.splitext(f)[0])
+            names.sort()
+            return names
+        except Exception:
+            return []
+
+    def renderFileDropped(self, filePath):
         if filePath:
-            self.renderInterface.fileCard.setContent(filePath)
-            self.renderInterface.fileCard.setEnabled(False)
+            self.renderInterface.dragDropArea.setEnabled(False)
+            # 初始化上下文
+            self.render_context = {
+                'type': 'file',
+                'path': filePath,
+                'filename': os.path.splitext(os.path.basename(filePath))[0],
+                'status': '渲染中'
+            }
+            self.renderInterface.renderProgressRing.setValue(0)
+            self._refresh_render_info_browser()
 
             self.renderThread[0] = FunctionLoopWorker(render_temp2img, filePath)
             self.renderThread[0].signals.step.connect(self.onShowRenderProgressInfo)
             self.renderThread[0].signals.result.connect(self.renderOneThreadFinished)
             self.renderThread[0].start()
 
-    def renderAllButtonClicked(self):
-        dirPath = QFileDialog.getExistingDirectory(
-            self,
-            '选择目录',
-            os.getcwd(),
-            )
+    def renderDirDropped(self, dirPath):
         if dirPath:
-            self.renderInterface.dirCard.setContent(dirPath)
-            self.renderInterface.dirCard.setEnabled(False)
+            self.renderInterface.dragDropArea.setEnabled(False)
+            files = self._list_json_in_dir(dirPath)
+            status_map = {name: '未开始' for name in files}
+            self.render_context = {
+                'type': 'folder',
+                'path': dirPath,
+                'files': files,
+                'status_map': status_map
+            }
+            self.renderInterface.renderProgressRing.setValue(0)
+            self._refresh_render_info_browser()
 
             self.renderThread[1] = FunctionLoopWorker(render_temp2img, dirPath)
             self.renderThread[1].signals.step.connect(self.onShowRenderProgressInfo)
@@ -1013,23 +1061,48 @@ class Window(SplitFluentWindow):
 
 
     def onShowRenderProgressInfo(self, progress_info: dict):
+        # 更新进度环
         self.renderInterface.renderProgressRing.setValue(progress_info['progress_value'])
-        text = self.renderInterface.renderInforBrowser.toPlainText()
-        text += str(progress_info['message']) + "\n"
-        self.renderInterface.renderInforBrowser.setPlainText(text)
+        # 根据message更新对应文件状态
+        try:
+            msg = str(progress_info.get('message', ''))
+            # 期望格式："已处理：{filename}.json"
+            if '已处理：' in msg and msg.endswith('.json'):
+                base = msg.split('已处理：')[-1].strip()
+                name = base[:-5] if base.lower().endswith('.json') else base
+                if self.render_context:
+                    if self.render_context['type'] == 'file':
+                        # 单文件：只要收到进度即可视为完成保存
+                        self.render_context['status'] = '已完成'
+                    elif self.render_context['type'] == 'folder':
+                        # 文件夹：标记该文件为已完成
+                        status_map = self.render_context.get('status_map', {})
+                        status_map[name] = '已完成'
+        except Exception as e:
+            logger.exception(e)
+        finally:
+            self._refresh_render_info_browser()
 
 
     def renderOneThreadFinished(self, result: dict):
-        self.renderInterface.fileCard.setEnabled(True)
+        self.renderInterface.dragDropArea.setEnabled(True)
         if result:
+            # 最终置为100%
+            self.renderInterface.renderProgressRing.setValue(100)
+            # 刷新右侧渲染图
             pixmap = QPixmap.fromImage(result['last_image'])
-            # 计算适合标签大小的缩放尺寸
+            # 使用整型宽高的重载版本以消除静态告警
             pixmap = pixmap.scaled(
-                self.renderInterface.irLabel.size(),
+                self.renderInterface.irLabel.width(),
+                self.renderInterface.irLabel.height(),
                 Qt.KeepAspectRatio,
                 Qt.SmoothTransformation
             )
-            self.renderInterface.irLabel.setPixmap(pixmap)  # 展示图像
+            self.renderInterface.irLabel.setPixmap(pixmap)
+            # 更新文本状态
+            if self.render_context and self.render_context.get('type') == 'file':
+                self.render_context['status'] = '已完成'
+                self._refresh_render_info_browser()
             InfoBar.success(
                 title='[渲染]',
                 content='渲染完成！' ,
@@ -1052,8 +1125,16 @@ class Window(SplitFluentWindow):
         self.renderThread[0] = None
 
     def renderAllThreadFinished(self, result: dict):
-        self.renderInterface.dirCard.setEnabled(True)
+        self.renderInterface.dragDropArea.setEnabled(True)
         if result:
+            self.renderInterface.renderProgressRing.setValue(100)
+            # 完成时确保所有未开始的项也置为已完成（以防遗漏）
+            if self.render_context and self.render_context.get('type') == 'folder':
+                status_map = self.render_context.get('status_map', {})
+                for name in self.render_context.get('files', []):
+                    if status_map.get(name) != '已完成':
+                        status_map[name] = '已完成'
+                self._refresh_render_info_browser()
             InfoBar.success(
                 title='[渲染]',
                 content='渲染完成！' ,
@@ -1079,8 +1160,9 @@ class Window(SplitFluentWindow):
 if __name__ == '__main__':
     QApplication.setHighDpiScaleFactorRoundingPolicy(
         Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
+    # 使用 ApplicationAttribute 显式枚举，避免静态告警
+    QApplication.setAttribute(Qt.ApplicationAttribute.AA_EnableHighDpiScaling)
+    QApplication.setAttribute(Qt.ApplicationAttribute.AA_UseHighDpiPixmaps)
     setTheme(Theme.DARK)
     app = QApplication(sys.argv)
     translator = FluentTranslator()

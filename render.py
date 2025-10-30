@@ -22,11 +22,10 @@ def render_temp2img(step_signal, path, height=384, width=512):
     elif os.path.isdir(path):
         print(f"{path}目录下所有JSON文件渲染")
         dir = path
-
     ir_temp_dict = load_ir_temp(path)
-    sum = len(ir_temp_dict)
-    output_path = ''
     if ir_temp_dict:
+        sum = len(ir_temp_dict)
+        output_path = ''
         count  = 0
         for filename, ir_temp in ir_temp_dict.items():
 

@@ -1039,6 +1039,7 @@ class Window(SplitFluentWindow):
             self.renderThread[0] = FunctionLoopWorker(render_temp2img, filePath)
             self.renderThread[0].signals.step.connect(self.onShowRenderProgressInfo)
             self.renderThread[0].signals.result.connect(self.renderOneThreadFinished)
+            self.renderThread[0].signals.error.connect(self.processRenderError)
             self.renderThread[0].start()
 
     def renderDirDropped(self, dirPath):
@@ -1058,6 +1059,7 @@ class Window(SplitFluentWindow):
             self.renderThread[1] = FunctionLoopWorker(render_temp2img, dirPath)
             self.renderThread[1].signals.step.connect(self.onShowRenderProgressInfo)
             self.renderThread[1].signals.result.connect(self.renderAllThreadFinished)
+            self.renderThread[1].signals.error.connect(self.processRenderError)
             self.renderThread[1].start()
 
 
@@ -1084,10 +1086,9 @@ class Window(SplitFluentWindow):
         finally:
             self.refreshRenderInfoBrowser()
 
-
     def renderOneThreadFinished(self, result: dict):
         self.renderInterface.dragDropArea.setEnabled(True)
-        if result:
+        if result['count'] > 0:
             # 最终置为100%
             self.renderInterface.renderProgressRing.setValue(100)
             # 刷新右侧渲染图
@@ -1127,7 +1128,7 @@ class Window(SplitFluentWindow):
 
     def renderAllThreadFinished(self, result: dict):
         self.renderInterface.dragDropArea.setEnabled(True)
-        if result:
+        if result['count'] > 0:
             self.renderInterface.renderProgressRing.setValue(100)
             # 完成时确保所有未开始的项也置为已完成（以防遗漏）
             if self.render_context and self.render_context.get('type') == 'folder':
@@ -1156,6 +1157,9 @@ class Window(SplitFluentWindow):
                 parent=self
             )
         self.renderThread[1] = None
+
+    def processRenderError(self):
+        self.renderInterface.dragDropArea.setEnabled(True)
 
 
 if __name__ == '__main__':

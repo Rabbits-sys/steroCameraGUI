@@ -986,7 +986,7 @@ class Window(SplitFluentWindow):
 # ------------------------------------------------------------------
 # 红外温度矩阵渲染 - Markdown信息展示与渲染流程
 # ------------------------------------------------------------------
-    def _build_render_markdown(self):
+    def buildRenderMarkdown(self):
         """根据当前render_context构建中文Markdown文本。"""
         if not self.render_context:
             return ""
@@ -1008,10 +1008,11 @@ class Window(SplitFluentWindow):
                 md += f"- {name}.json：{st}\n"
         return md
 
-    def _refresh_render_info_browser(self):
-        self.renderInterface.renderInforBrowser.setMarkdown(self._build_render_markdown())
+    def refreshRenderInfoBrowser(self):
+        self.renderInterface.renderInforBrowser.setMarkdown(self.buildRenderMarkdown())
 
-    def _list_json_in_dir(self, dir_path: str):
+    @staticmethod
+    def listJsonInDir(dir_path: str):
         try:
             names = []
             for f in os.listdir(dir_path):
@@ -1033,7 +1034,7 @@ class Window(SplitFluentWindow):
                 'status': '🟨'
             }
             self.renderInterface.renderProgressRing.setValue(0)
-            self._refresh_render_info_browser()
+            self.refreshRenderInfoBrowser()
 
             self.renderThread[0] = FunctionLoopWorker(render_temp2img, filePath)
             self.renderThread[0].signals.step.connect(self.onShowRenderProgressInfo)
@@ -1043,7 +1044,7 @@ class Window(SplitFluentWindow):
     def renderDirDropped(self, dirPath):
         if dirPath:
             self.renderInterface.dragDropArea.setEnabled(False)
-            files = self._list_json_in_dir(dirPath)
+            files = self.listJsonInDir(dirPath)
             status_map = {name: '🟨' for name in files}
             self.render_context = {
                 'type': 'folder',
@@ -1052,7 +1053,7 @@ class Window(SplitFluentWindow):
                 'status_map': status_map
             }
             self.renderInterface.renderProgressRing.setValue(0)
-            self._refresh_render_info_browser()
+            self.refreshRenderInfoBrowser()
 
             self.renderThread[1] = FunctionLoopWorker(render_temp2img, dirPath)
             self.renderThread[1].signals.step.connect(self.onShowRenderProgressInfo)
@@ -1081,7 +1082,7 @@ class Window(SplitFluentWindow):
         except Exception as e:
             logger.exception(e)
         finally:
-            self._refresh_render_info_browser()
+            self.refreshRenderInfoBrowser()
 
 
     def renderOneThreadFinished(self, result: dict):
@@ -1102,7 +1103,7 @@ class Window(SplitFluentWindow):
             # 更新文本状态
             if self.render_context and self.render_context.get('type') == 'file':
                 self.render_context['status'] = '🟩'
-                self._refresh_render_info_browser()
+                self.refreshRenderInfoBrowser()
             InfoBar.success(
                 title='[渲染]',
                 content='渲染完成！' ,
@@ -1134,7 +1135,7 @@ class Window(SplitFluentWindow):
                 for name in self.render_context.get('files', []):
                     if status_map.get(name) != '🟩':
                         status_map[name] = '🟩'
-                self._refresh_render_info_browser()
+                self.refreshRenderInfoBrowser()
             InfoBar.success(
                 title='[渲染]',
                 content='渲染完成！' ,

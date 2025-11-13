@@ -48,7 +48,7 @@ jobs:
           --output-dir=build `
           --windows-console-mode=disable `
           --include-package=qfluentwidgets `
-          --windows-icon-from-ico=resource/logo.ico `
+          --windows-icon-from-ico=resource/images/logo.ico `
           --nofollow-import-to=numpy,matplotlib,scipy,pandas,tkinter `
           --assume-yes-for-downloads `
           --python-flag=no_site `
